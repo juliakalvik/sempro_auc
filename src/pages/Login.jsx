@@ -1,13 +1,10 @@
-import "../style/Login.css";
+import Header from "../components/navbar_wide";
 
-function Login() {
+export default function LoginTest() {
   return (
     <>
-      <div>
-        <h1>Log in to your account</h1>
-      </div>
+      <Header />
+      <h2>Login page</h2>
     </>
   );
 }
-
-export default Login;

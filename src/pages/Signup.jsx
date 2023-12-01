@@ -1,12 +1,10 @@
-import React from "react";
+import Header from "../components/navbar_wide";
 
-function Signup() {
+export default function SignupTest() {
   return (
-    <div>
-      <h2>Signup Page</h2>
-      {/* Add your signup form or content here */}
-    </div>
+    <>
+      <Header />
+      <h2>Signup page</h2>
+    </>
   );
 }
-
-export default Signup;
