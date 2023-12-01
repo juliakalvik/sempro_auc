@@ -1,0 +1,13 @@
+nav {
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  background-color: #669bbc50;
+  height: 40px;
+  width: fit-content;
+  margin: 16px;
+}

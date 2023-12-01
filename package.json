@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
     "@tanstack/react-query": "^5.10.0",
     "@tanstack/react-router": "^0.0.1-beta.215",
     "react": "^18.2.0",
