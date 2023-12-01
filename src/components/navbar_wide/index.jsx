@@ -3,20 +3,24 @@ import "./navbar.css";
 
 export default function Header() {
   return (
-    <>
-      <nav className="navbar">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/login">Log in</Link>
-          </li>
-          <li>
-            <Link to="/signup">Sign up</Link>
-          </li>
-        </ul>
-      </nav>
-    </>
+    <nav className="navbar">
+      <ul>
+        <li>
+          <Link to="/" className="nav-link">
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link to="/login" className="nav-link">
+            Log in
+          </Link>
+        </li>
+        <li>
+          <Link to="/signup" className="nav-link">
+            Sign up
+          </Link>
+        </li>
+      </ul>
+    </nav>
   );
 }
