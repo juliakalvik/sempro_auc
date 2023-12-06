@@ -11,6 +11,16 @@ export default function Header() {
           </Link>
         </li>
         <li>
+          <Link to="/addlisting" className="nav-link">
+            + listing
+          </Link>
+        </li>
+        <li>
+          <Link to="/profile" className="nav-link">
+            My profile
+          </Link>
+        </li>
+        <li>
           <Link to="/login" className="nav-link">
             Log in
           </Link>
