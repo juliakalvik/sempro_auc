@@ -3,6 +3,7 @@ import Home from "./Home";
 import Login from "./Login";
 import Signup from "./Signup";
 import Root from "../App";
+import Profile from "./Profile";
 
 const rootRoute = new RootRoute({
   component: Root,
@@ -26,7 +27,18 @@ const signupRoute = new Route({
   component: Signup,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, loginRoute, signupRoute]);
+const profileRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/profile",
+  component: Profile,
+});
+
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  loginRoute,
+  signupRoute,
+  profileRoute,
+]);
 
 export const router = new Router({ routeTree });
 
