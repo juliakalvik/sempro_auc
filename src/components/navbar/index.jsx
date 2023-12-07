@@ -3,6 +3,9 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "@tanstack/react-router";
 import { navbarStyles } from "./navbarStyles";
+import { faGavel } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./style.css";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -22,11 +25,7 @@ export default function Navbar() {
           <div className={navbarStyles.logoContainer}>
             <a href="#" className={navbarStyles.logo}>
               <span className="sr-only">Your Company</span>
-              <img
-                className={navbarStyles.logoImage}
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
+              <FontAwesomeIcon icon={faGavel} style={{ color: "#101828" }} />
             </a>
           </div>
           <div className={navbarStyles.mobileButton}>
@@ -67,11 +66,8 @@ export default function Navbar() {
             <div className="flex items-center justify-between">
               <a href="#" className={navbarStyles.logo}>
                 <span className="sr-only">Your Company</span>
-                <img
-                  className={navbarStyles.logoImage}
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                  alt=""
-                />
+
+                <FontAwesomeIcon icon={faGavel} style={{ color: "#101828" }} />
               </a>
               <button
                 type="button"
