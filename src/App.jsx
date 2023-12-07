@@ -1,19 +1,20 @@
-import { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-//import { Home, Login, Signup } from "./pages";
-import { HomeTest } from "./pages/Home";
-
 import { Outlet } from "@tanstack/react-router";
+import "./App.css";
 
-export default function App() {
+function App() {
   return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<HomeTest />} />
-          <Route path="/home" element={<HomeTest />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <>
+      <header>{/*   <Navbar /> */}</header>
+
+      <main>
+        <Outlet />
+      </main>
+
+      <footer>
+        <small>Created with ❤️ Julia</small>
+      </footer>
+    </>
   );
 }
+
+export default App;

@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import "../signupForm/signup.css";
+import "./signup.css";
 
-const LoginForm = () => {
+const SignUpForm = () => {
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
+    avatar: null,
   });
 
   const [errors, setErrors] = useState({
+    name: "",
     email: "",
     password: "",
   });
@@ -20,16 +23,40 @@ const LoginForm = () => {
     }));
   };
 
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    setFormData((prevData) => ({
+      ...prevData,
+      avatar: file,
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const requiredFields = ["email", "password"];
+    const requiredFields = ["name", "email", "password"];
     const newErrors = {};
     requiredFields.forEach((field) => {
       if (!formData[field]) {
         newErrors[field] = `Please enter ${field}.`;
       }
     });
+
+    if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters long.";
+    }
+
+    const emailRegex = /^(.+)@(stud\.noroff\.no|noroff\.no)$/;
+    if (!emailRegex.test(formData.email)) {
+      newErrors.email =
+        "Invalid email address. Use stud.noroff.no or noroff.no.";
+    }
+
+    const nameRegex = /^[^\W_]+$/;
+    if (!nameRegex.test(formData.name)) {
+      newErrors.name =
+        "Name should not contain punctuation symbols apart from underscore.";
+    }
 
     setErrors(newErrors);
 
@@ -38,15 +65,28 @@ const LoginForm = () => {
     }
 
     setErrors({
+      name: "",
       email: "",
       password: "",
     });
 
-    console.log("Login successful:", formData);
+    console.log("Signup successful:", formData);
   };
 
   return (
     <form className="signup-form" onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
+        {errors.name && <span className="error">{errors.name}</span>}
+      </label>
+
       <label>
         Email:
         <input
@@ -71,11 +111,16 @@ const LoginForm = () => {
         {errors.password && <span className="error">{errors.password}</span>}
       </label>
 
+      <label>
+        Avatar:
+        <input type="file" accept="image/*" onChange={handleAvatarChange} />
+      </label>
+
       <button className="submit-btn" type="submit">
-        Log In
+        Sign Up
       </button>
     </form>
   );
 };
 
-export default LoginForm;
+export default SignUpForm;
