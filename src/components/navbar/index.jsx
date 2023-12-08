@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "@tanstack/react-router";
-import { navbarStyles } from "./navbarStyles";
 import { faGavel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./style.css";
 
 const navigation = [
-  { name: "Home", href: "/" },
+  { name: "Home", href: "/home" },
   { name: "+ Listing", href: "/addlisting" },
   { name: "My Profile", href: "/profile" },
   { name: "Log In", href: "/login" },
@@ -19,59 +17,62 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className={navbarStyles.container}>
-      <header className={navbarStyles.header}>
-        <nav className={navbarStyles.nav} aria-label="Global">
-          <div className={navbarStyles.logoContainer}>
-            <a href="#" className={navbarStyles.logo}>
-              <span className="sr-only">Your Company</span>
+    <div className="bg-white">
+      <header className="absolute inset-x-0 top-0 z-50">
+        <nav
+          className="flex items-center justify-between p-6 lg:px-8"
+          aria-label="Global"
+        >
+          <div className="flex lg:flex-1">
+            <a href="./home" className="-m-1.5 p-1.5">
               <FontAwesomeIcon icon={faGavel} style={{ color: "#101828" }} />
             </a>
           </div>
-          <div className={navbarStyles.mobileButton}>
+          <div className="flex lg:hidden">
             <button
               type="button"
-              className={navbarStyles.mobileButton}
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
               onClick={() => setMobileMenuOpen(true)}
             >
               <span className="sr-only">Open main menu</span>
               <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
-          <div className={navbarStyles.navLinks}>
+          <div className="hidden lg:flex lg:gap-x-12">
             {navigation.map((item) => (
-              <Link
+              <a
                 key={item.name}
-                to={item.href}
-                className={navbarStyles.link}
+                href={item.href}
+                className="text-sm font-semibold leading-6 text-gray-900 hover:text-turq"
               >
                 {item.name}
-              </Link>
+              </a>
             ))}
           </div>
-          <div className={navbarStyles.authLink}>
-            <a href="#" className={navbarStyles.link}>
-              Log in <span aria-hidden="true">&rarr;</span>
-            </a>
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <input
+              type="text"
+              placeholder="Search"
+              className="w-40 p-2 border border-gray-300 rounded-md"
+            />
           </div>
         </nav>
         <Dialog
           as="div"
-          className={navbarStyles.dialog}
+          className="lg:hidden"
           open={mobileMenuOpen}
-          onClose={() => setMobileMenuOpen(false)}
+          onClose={setMobileMenuOpen}
         >
           <div className="fixed inset-0 z-50" />
-          <Dialog.Panel className={navbarStyles.dialogPanel}>
+          <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
-              <a href="#" className={navbarStyles.logo}>
+              <a href="/home" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
-
                 <FontAwesomeIcon icon={faGavel} style={{ color: "#101828" }} />
               </a>
               <button
                 type="button"
-                className={navbarStyles.mobileButton}
+                className="-m-2.5 rounded-md p-2.5 text-gray-700"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="sr-only">Close menu</span>
@@ -79,32 +80,30 @@ export default function Navbar() {
               </button>
             </div>
             <div className="mt-6 flow-root">
-              <div className={navbarStyles.navLinks}>
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className={navbarStyles.mobileMenuLink}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
-              <div className="py-6">
-                <a href="#" className={navbarStyles.mobileMenuLink}>
-                  Log in
-                </a>
+              <div className="-my-6 divide-y divide-gray-500/10">
+                <div className="space-y-2 py-6">
+                  {navigation.map((item) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 hover:text-turq"
+                    >
+                      {item.name}
+                    </a>
+                  ))}
+                </div>
+                <div className="py-6">
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  />
+                </div>
               </div>
             </div>
           </Dialog.Panel>
         </Dialog>
       </header>
-
-      <div className={navbarStyles.relativeContainer}>
-        <div className={navbarStyles.absoluteContainer}>
-          <div className={navbarStyles.gradientShape} />
-        </div>
-      </div>
     </div>
   );
 }
