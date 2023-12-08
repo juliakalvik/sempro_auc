@@ -1,4 +1,1 @@
-export const API_HOST_URL = "https://api.noroff.dev";
-export const API_BASE = "/api/v1";
-export const API_AUC_BASE = "/auction";
-export const API_AUC_URL = `${API_HOST_URL}${API_BASE}${API_AUC_URL}`;
+export const API_URL = import.meta.env.NOROFF_API_URL;

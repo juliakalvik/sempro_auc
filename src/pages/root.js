@@ -15,6 +15,12 @@ const indexRoute = new Route({
   component: Home,
 });
 
+const homeRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/home",
+  component: Home,
+});
+
 const loginRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/login",
@@ -38,6 +44,7 @@ const routeTree = rootRoute.addChildren([
   loginRoute,
   signupRoute,
   profileRoute,
+  homeRoute,
 ]);
 
 export const router = new Router({ routeTree });
