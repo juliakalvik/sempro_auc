@@ -16,7 +16,15 @@ export default function HomeHeroSection() {
       <div className="mx-auto max-w-2xl lg:pt-36 md:pt-36 pt-10">
         <div className="text-center">
           <h1 className="lg:text-6xl font-extrabold tracking-tight md:text-6xl text-gray-900 text-3xl">
-            Join GAVEL today
+            Join{" "}
+            <span className="inline-block pl-2 text-7xl transform skew-x-[-18deg]">
+              G
+              <span className="bg-gradient-to-tl from-turq to-black text-transparent bg-clip-text">
+                AV
+              </span>
+              EL
+            </span>{" "}
+            today
           </h1>
           <h2 className="lg:text-6xl font-extrabold text-3xl md:text-4xl">
             and get 1000 cash points for free!
