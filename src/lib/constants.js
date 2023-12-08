@@ -1,1 +1,1 @@
-export const API_URL = import.meta.env.NOROFF_API_URL;
+export const API_URL = "https://api.noroff.dev/api/v1/auction";

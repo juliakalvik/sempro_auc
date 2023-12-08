@@ -1,4 +1,5 @@
 import { Router, Route, RootRoute } from "@tanstack/react-router";
+
 import Home from "./Home";
 import Login from "./Login";
 import Signup from "./Signup";

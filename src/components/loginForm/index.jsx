@@ -1,21 +1,18 @@
-import { useState } from "react";
-import "../signupForm/signup.css";
-import { loginUser } from "../../lib/api";
+import React, { useState } from "react";
 import { useNavigate, Link } from "@tanstack/react-router";
+import { loginUser } from "../../lib/api";
 
-export default function LoginPage() {
+const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
-  const [spin] = useState(false);
 
   const navigateToHome = () => {
     setTimeout(() => {
-      navigate({ to: "/" });
+      navigate("/");
     }, 2000);
-    console.log(navigateToHome);
   };
 
   const handleOnSubmit = async (event) => {
@@ -28,12 +25,14 @@ export default function LoginPage() {
     };
 
     try {
-      const res = await loginUser(payload); // Use loginUser
+      setIsLoading(true);
+      const res = await loginUser(payload);
+      console.log(res);
       setData(res);
       setIsSuccess(true);
       navigateToHome();
     } catch (error) {
-      console.warn("An error occurred", error);
+      console.warn("Failed to fetch token", error.message);
       setError(error);
     } finally {
       setIsLoading(false);
@@ -46,17 +45,16 @@ export default function LoginPage() {
     <div className="p-4 rounded-lg dark:bg-gray-900 md:p-10">
       <div className="flex items-center justify-center">
         <img
-          className={`h-22 sm:h-24 md:h-26 lg:h-28 xl:h-30 my-5 logo dark:invert ${
-            spin ? "spin" : ""
-          }`}
-        ></img>
+          className="h-22 sm:h-24 md:h-26 lg:h-28 xl:h-30 my-5 logo dark:invert"
+          alt="Logo"
+        />
       </div>
       <h1 className="mt-2 mb-5 text-3xl font-bold sm:text-3xl md:text-4xl lg:text-5xl">
         <p className="text-sm text-white dark:text-gray-700">is</p>Better than
         X!
       </h1>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
         {isSuccess ? (
           <section>
             <p className="text-center text-green-900">
@@ -72,7 +70,6 @@ export default function LoginPage() {
                 </h2>
                 <form
                   className="p-1 space-y-4 md:space-y-6"
-                  action="/profile"
                   onSubmit={handleOnSubmit}
                 >
                   <div>
@@ -90,7 +87,7 @@ export default function LoginPage() {
                         required
                         placeholder="Email"
                         autoComplete="email"
-                        defaultValue="Mirmir2023@stud.noroff.no"
+                        defaultValue="first.last@stud.noroff.no"
                         className="bg-neutral-100 border-2 border-orange-100 text-gray-900 leading-tight tracking-tight sm:text-sm rounded-3xl focus:ring-primary-600 focus:border-primary-600 block w-full min-w-[220px] sm:min-w-[300px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       />
                     </div>
@@ -104,7 +101,7 @@ export default function LoginPage() {
                       placeholder="Password"
                       autoComplete="current-password"
                       minLength={8}
-                      defaultValue="Pushing-P"
+                      defaultValue="UzI1NiIsInR5cCI"
                       className="bg-neutral-100 border-2 border-orange-100 text-gray-900 leading-tight tracking-tight sm:text-sm rounded-3xl focus:ring-primary-600 focus:border-primary-600 block w-full min-w-[220px] sm:min-w-[300px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     />
                   </div>
@@ -140,12 +137,12 @@ export default function LoginPage() {
                       type="submit"
                       className="w-full px-4 py-2 my-2 leading-tight tracking-tight text-white bg-blue-500 border-2 border-blue-500 rounded-3xl hover:border-blue-400 shadow-custom"
                     >
-                      {isLoading ? "signing in" : "Login"}
+                      {isLoading ? "Signing In" : "Login"}
                     </button>
                     <p className="text-xs font-light text-gray-700 sm:text-sm dark:text-gray-400">
                       Not a member?{" "}
                       <Link
-                        to={`/register`}
+                        to="/"
                         className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
                       >
                         Sign up now
@@ -160,4 +157,6 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginPage;

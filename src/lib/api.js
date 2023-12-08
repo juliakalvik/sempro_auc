@@ -66,7 +66,7 @@ export async function registerUser({ email, password, username }) {
   }
 }
 
-/** *Login user - login page - @author Cnbergh*/
+/** *Login user - login page*/
 export async function loginUser({ email, password }) {
   const url = new URL(`${API_URL}/auth/login`);
 
@@ -83,11 +83,10 @@ export async function loginUser({ email, password }) {
     if (!response.ok) throw new Error(response.statusText);
 
     const data = await response.json();
-    localStorage.setItem("jwt", data.accessToken);
-    localStorage.setItem("user_email", data.email);
+    localStorage.setItem("token", data.accessToken);
     localStorage.setItem("user_name", data.name);
-    localStorage.setItem("user_count", data.count);
-    localStorage.setItem("user_avata", data.avatar);
+    localStorage.setItem("user_email", data.email);
+    localStorage.setItem("avatar", data.avatar);
     return data;
   } catch (error) {
     throw new Error(error);
