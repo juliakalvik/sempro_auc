@@ -1,10 +1,9 @@
-import SignUpForm from "../components/signupForm";
+import SignupContainer from "../components/signupContainer";
 
 export default function SignupTest() {
   return (
     <>
-      <h2>Signup page</h2>
-      <SignUpForm />
+      <SignupContainer />
     </>
   );
 }
