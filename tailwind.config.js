@@ -7,5 +7,5 @@ export default {
       },
     },
   },
-  plugins: ["daisyui"],
+  plugins: ["daisyui", "@tailwindcss/forms"],
 };
