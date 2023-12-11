@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./signup.css";
+import { registerUser } from "../../lib/api";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -71,30 +72,22 @@ const SignUpForm = () => {
     });
 
     try {
-      const response = await fetch(
-        "https://api.noroff.dev/api/v1/auction/auth/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: formData.name,
-            email: formData.email,
-            password: formData.password,
-          }),
-        }
-      );
-
-      if (response.ok) {
+      const response = await registerUser({
+        username: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+      if (response.id) {
+        // If response have id, it was a success.
         console.log("Registration successful");
-        // You might want to redirect or perform some action upon successful registration
       } else {
-        const errorData = await response.json();
+        console.log("helluu");
+        const errorData = await response.errors[0].message;
         console.error("Registration failed:", errorData.message);
       }
     } catch (error) {
-      console.error("Error during registration:", error);
+      console.log(error);
+      console.error("Error during registration:");
     }
   };
 
