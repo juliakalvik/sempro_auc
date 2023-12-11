@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./signup.css";
 import { registerUser } from "../../lib/api";
+import { useNavigate } from "@tanstack/react-router";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -31,6 +32,7 @@ const SignUpForm = () => {
       avatar: file,
     }));
   };
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,6 +82,7 @@ const SignUpForm = () => {
       if (response.id) {
         // If response have id, it was a success.
         console.log("Registration successful");
+        await navigate({ to: "/login" });
       } else {
         console.log("helluu");
         const errorData = await response.errors[0].message;
