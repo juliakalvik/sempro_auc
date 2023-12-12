@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-
+import { Link, useNavigate } from "@tanstack/react-router";
 import { fetchAllListings } from "../../lib/api";
+import CountdownTimer from "../countDown";
 
 const AuctionItems = () => {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -17,6 +19,11 @@ const AuctionItems = () => {
 
     fetchListings();
   }, []);
+
+  const handleProductClick = (productId) => {
+    // Use the navigate function to navigate to the specific product details page
+    navigate(`/listingdetails?productid=${productId}`);
+  };
 
   return (
     <div className="bg-white">
@@ -32,28 +39,29 @@ const AuctionItems = () => {
               className="group relative overflow-hidden shadow-md rounded-md p-4"
             >
               <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                <img
-                  src={product.media}
-                  className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                />
+                <Link to={`/listingdetails/${product.id}`}>
+                  <img
+                    src={product.media}
+                    className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                    alt={product.title}
+                  />
+                </Link>
               </div>
-              <div className="mt-4 flex justify-between">
+              <div
+                className="mt-4 flex justify-between"
+                onClick={() => handleProductClick(product.id)}
+              >
                 <div>
                   <h3 className="text-sm text-gray-700">
-                    <a href={product.href}>
-                      <span aria-hidden="true" className="absolute inset-0" />
-                      {product.title}
-                    </a>
+                    <span aria-hidden="true" className="absolute" />
+                    {product.title}
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">
-                    {" "}
-                    Bids:
-                    {product._count.bids}
+                    Bids: {product._count.bids}
                   </p>
                 </div>
                 <p className="text-sm font-medium text-gray-900">
-                  {" "}
-                  {product.endsAt}
+                  <CountdownTimer endsAt={product.endsAt}></CountdownTimer>
                 </p>
               </div>
             </div>

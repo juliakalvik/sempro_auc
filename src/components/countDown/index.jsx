@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-const CountdownTimer = () => {
-  const initialTimeInSeconds = 7 * 60 * 60; // 7 hours in seconds
-  const [timeInSeconds, setTimeInSeconds] = useState(initialTimeInSeconds);
+const CountdownTimer = (props) => {
+  // eslint-disable-next-line react/prop-types
+  const targetDateTime = new Date(props.endsAt);
+
+  // Get the current date and time
+  const now = new Date();
+
+  // Calculate the total seconds from now to the target date
+  const totalSeconds = (targetDateTime - now) / 1000;
+  const [timeInSeconds, setTimeInSeconds] = useState(totalSeconds);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -22,14 +29,14 @@ const CountdownTimer = () => {
   }, []);
 
   const formatTime = (time) => {
-    const hours = Math.floor(time / 3600);
+    const days = Math.floor(time / (3600 * 24));
+    const hours = Math.floor((time % (3600 * 24)) / 3600);
     const minutes = Math.floor((time % 3600) / 60);
-    const seconds = time % 60;
+    const seconds = Math.floor(time % 60);
 
-    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
-      2,
-      "0"
-    )}:${String(seconds).padStart(2, "0")}`;
+    return `${days}d ${String(hours).padStart(2, "0")}h ${String(
+      minutes
+    ).padStart(2, "0")}m ${String(seconds).padStart(2, "0")}s`;
   };
 
   return (

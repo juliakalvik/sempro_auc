@@ -130,6 +130,24 @@ export async function fetchAllListings() {
   }
 }
 
+/** LISTING SPECIFIC */
+
+export async function fetchListingById(listingId) {
+  const url = new URL(`${API_URL}/listings/${encodeURIComponent(listingId)}`);
+  url.searchParams.append("_bids", "true");
+  url.searchParams.append("_seller", "true");
+
+  try {
+    const response = await fetch(url.href);
+    if (!response.ok) throw new Error(response.statusText);
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 /** *Logout user - @author Cnbergh*/
 export function logoutUser() {
   localStorage.removeItem("jwt");
