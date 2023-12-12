@@ -6,7 +6,7 @@ import Signup from "./Signup";
 import Root from "../App";
 import Profile from "./Profile";
 import AddListing from "./AddListing";
-import ListingDetails from "../components/listingDetails";
+import ListingDetails from "./ListingDetails";
 
 const rootRoute = new RootRoute({
   component: Root,

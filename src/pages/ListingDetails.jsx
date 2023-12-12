@@ -1,34 +1,12 @@
-import { useEffect, useState } from "react";
-import { fetchListingById } from "../utils/api";
+import ListingDetails from "../components/listingDetails";
 
-const ListingDetails = (listingId) => {
-  const [listing, setListing] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchListingById(listingId);
-        setListing(data);
-      } catch (error) {
-        console.error("Error fetching listing details:", error);
-      }
-    };
-
-    fetchData();
-  }, [listingId]);
-
-  if (!listing) {
-    return <div>Loading...</div>;
-  }
-
-  // Render listing details using the fetched data
-
+const ListingDetailsPage = () => {
   return (
     <div>
-      <h1>{listing.title}hei</h1>
-      {/* Render other details */}
+      <h2>Listing Details</h2>
+      <ListingDetails />
     </div>
   );
 };
 
-export default ListingDetails;
+export default ListingDetailsPage;
