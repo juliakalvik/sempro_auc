@@ -106,16 +106,21 @@ export async function loginUser({ email, password }) {
     });
 
 */
-export async function fetchAllListings(sortOrder = "desc") {
+export async function fetchAllListings() {
   const url = new URL(`${API_URL}/listings`);
 
-  url.searchParams.append("fields", "id,title,media,endsAt,_count,bids");
-  url.searchParams.append("sortOrder", sortOrder);
+  url.searchParams.append(
+    "fields",
+    "id,title,media, created, endsAt,_count,bids, tags"
+  );
+  url.searchParams.append("_active", "true");
 
   try {
     const response = await fetcher(url.href);
 
-    if (!response.ok) throw new Error(response.statusText);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
 
     const data = await response.json();
 

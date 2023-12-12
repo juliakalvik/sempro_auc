@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import CountdownTimer from "../countDown";
+
 import { fetchAllListings } from "../../lib/api";
 
 const AuctionItems = () => {
@@ -46,14 +46,15 @@ const AuctionItems = () => {
                     </a>
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">
+                    {" "}
+                    Bids:
                     {product._count.bids}
-                    {product.endsAt}
                   </p>
                 </div>
                 <p className="text-sm font-medium text-gray-900">
-                  {product.price}
+                  {" "}
+                  {product.endsAt}
                 </p>
-                <CountdownTimer />
               </div>
             </div>
           ))}
