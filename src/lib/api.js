@@ -93,13 +93,24 @@ export async function loginUser({ email, password }) {
   }
 }
 
-/** *BYTT UT MED AUCTION ITEMS*/
-export async function fetchAllPosts() {
-  const url = new URL(`${API_URL}/posts`);
+/** AUCTION ITEMS
+ * 
+ * export async function fetchAllListings() {
+  try {
+    const response = await fetch(`${API_URL}/listings?sort=created&sortOrder=desc&_bids=true`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        
+      },
+    });
 
-  url.searchParams.append("_author", "true");
-  url.searchParams.append("_comments", "true");
-  url.searchParams.append("_reactions", "true");
+*/
+export async function fetchAllListings(sortOrder = "desc") {
+  const url = new URL(`${API_URL}/listings`);
+
+  url.searchParams.append("fields", "id,title,media,endsAt,_count,bids");
+  url.searchParams.append("sortOrder", sortOrder);
 
   try {
     const response = await fetcher(url.href);
