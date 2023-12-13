@@ -139,6 +139,31 @@ export async function fetchListingById(listingId) {
   }
 }
 
+export async function postListingBid(listingId, amount) {
+  const url = new URL(
+    `${API_URL}/listings/${encodeURIComponent(listingId)}/bids`
+  );
+
+  const getOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ amount: parseFloat(amount) }),
+  };
+  const options = updateOptions(getOptions);
+
+  try {
+    const response = await fetch(url.href, options);
+    if (!response.ok) throw new Error(response.statusText);
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 // Get profile information
 export async function fetchProfileByName(profileName) {
   const url = new URL(`${API_URL}/profiles/${encodeURIComponent(profileName)}`);

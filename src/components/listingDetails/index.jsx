@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { fetchListingById } from "../../lib/api";
+import { fetchListingById, postListingBid } from "../../lib/api";
 import CountdownTimer from "../countDown";
 
 const ListingDetails = () => {
   const [listing, setListing] = useState();
+  const [bidAmount, setbidAmount] = useState(0);
   const params = new URLSearchParams(new URL(window.location.href).search);
   const productId = params.get("productId");
 
@@ -15,7 +16,6 @@ const ListingDetails = () => {
     try {
       const data = await fetchListingById(productId);
       setListing(data);
-      console.log(data);
     } catch (error) {
       console.error("Error fetching listing details:", error);
     }
@@ -24,6 +24,19 @@ const ListingDetails = () => {
   if (!listing) {
     return <div>Loading...</div>;
   }
+
+  const handleInputChange = (event) => {
+    setbidAmount(event.target.value);
+  };
+
+  const placeBid = async () => {
+    try {
+      const data = await postListingBid(productId, bidAmount);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching listing details:", error);
+    }
+  };
 
   return (
     <>
@@ -37,10 +50,15 @@ const ListingDetails = () => {
           <div className="flex flex-col lg:flex-row mt-4 sm:order-2">
             <input
               type="number"
+              value={bidAmount}
+              onChange={handleInputChange}
               className="inputField border border-gray-300 rounded-md p-2 mb-2 lg:mr-2 lg:mb-0"
               placeholder="Enter amount"
             />
-            <button className="actionButton bg-gray-600 text-white px-4 rounded-md">
+            <button
+              onClick={() => placeBid()}
+              className="actionButton bg-gray-600 text-white px-4 rounded-md"
+            >
               Submit
             </button>
           </div>
