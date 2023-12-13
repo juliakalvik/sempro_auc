@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { fetchListingById } from "../../lib/api";
 import CountdownTimer from "../countDown";
-import "./listingDetails.css";
 
 const ListingDetails = () => {
   const [listing, setListing] = useState();
   const params = new URLSearchParams(new URL(window.location.href).search);
   const productId = params.get("productId");
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -25,50 +25,50 @@ const ListingDetails = () => {
     return <div>Loading...</div>;
   }
 
-  // Render listing details using the fetched data
-
   return (
     <>
-      <div className="parent">
-        <div className="left">
-          <img
-            src={listing.media}
-            className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-            alt={listing.title}
-          />
-        </div>
-        <div className="right">
-          <h1>{listing.title}</h1>
+      <div className="flex flex-col lg:flex-row">
+        <div className="lg:w-1/2 mb-4 lg:mb-0 ">
+          <h1 className="text-3xl lg:text-4xl font-bold mb-2 sm:order-1">
+            {listing.title}
+          </h1>
           <p>Seller: username</p>
-          <p>Highest bid: 8</p>
-          <i>
-            <CountdownTimer endsAt={listing.endsAt}></CountdownTimer>
-          </i>
-          <div className="addbid">
+          <CountdownTimer endsAt={listing.endsAt} />
+          <div className="flex flex-col lg:flex-row mt-4 sm:order-2">
             <input
               type="number"
-              className="inputField"
+              className="inputField border border-gray-300 rounded-md p-2 mb-2 lg:mr-2 lg:mb-0"
               placeholder="Enter amount"
             />
-            <button className="actionButton">Submit</button>
+            <button className="actionButton bg-gray-600 text-white px-4 rounded-md">
+              Submit
+            </button>
           </div>
           <p>Your credit: cash</p>
         </div>
+        <div className="lg:w-1/2 lg:order-first">
+          <img
+            src={listing.media}
+            className="h-full w-full object-cover object-center lg:h-full lg:w-full rounded-lg"
+            alt={listing.title}
+          />
+        </div>
       </div>
-      <div className="descriptiontags">
-        <p>{listing.description}</p>
+      <div className="mt-4">
+        <p className="mb-2">{listing.description}</p>
+        {/* Render your tags here */}
         {listing.tags}
       </div>
-      <div className="">
-        <table id="bidTable">
+      <div className="mt-4">
+        <table className="w-full" id="bidTable">
           <thead>
             <tr>
-              <th>Bidder Name</th>
-              <th>Time of Bid</th>
-              <th>Bid Amount</th>
+              <th className="border p-2">Bidder Name</th>
+              <th className="border p-2">Time of Bid</th>
+              <th className="border p-2">Bid Amount</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>{/* Render your bid data here */}</tbody>
         </table>
       </div>
     </>
