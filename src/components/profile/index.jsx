@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
-import { fetchProfileByName } from "../../lib/api";
+import { fetchProfileByName, putUpdateEntryMedia } from "../../lib/api";
 import CountdownTimer from "../countDown";
 
 const Card = ({ children }) => (
@@ -12,7 +12,12 @@ const Card = ({ children }) => (
 const Profile = () => {
   const [avatarUrl, setAvatarUrl] = useState(localStorage.getItem("avatar"));
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [profile, setProfile] = useState();
+  const [imageURL, setImageURL] = useState("");
+  const [profile, setProfile] = useState({
+    avatar: localStorage.getItem("avatar"),
+    listings: [],
+    credits: 0,
+  });
   const userName = localStorage.getItem("user_name");
 
   useEffect(() => {
@@ -27,16 +32,18 @@ const Profile = () => {
       console.error("Error fetching listing details:", error);
     }
   };
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAvatarUrl(reader.result);
-        closeModal();
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleAvatarChange = async () => {
+    if (imageURL == "") return;
+    const data = await putUpdateEntryMedia(
+      localStorage.getItem("user_name"),
+      imageURL
+    );
+    setAvatarUrl(data.avatar);
+    localStorage.setItem("avatar", data.avatar);
+  };
+
+  const handleInputChange = (event) => {
+    setImageURL(event.target.value);
   };
 
   const openModal = () => {
@@ -66,18 +73,14 @@ const Profile = () => {
                 className="w-24 h-24 rounded-full mx-auto mb-2 cursor-pointer"
                 onClick={openModal}
               />
-              <input
-                type="file"
-                id="avatar"
-                className="absolute w-full h-full opacity-0 cursor-pointer avatar-input"
-                onChange={handleAvatarChange}
-              />
+
               <button
                 className="block bg-gray-800 hover:bg-turq text-white py-2 px-4 rounded-md cursor-pointer"
-                onClick={() => document.getElementById("avatar").click()} // Trigger file input
+                onClick={() => handleAvatarChange()} // Trigger file input
               >
                 Change Photo
               </button>
+              <input type="url" value={imageURL} onChange={handleInputChange} />
             </div>
           </div>
         </Card>

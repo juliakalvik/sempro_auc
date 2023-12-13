@@ -51,15 +51,7 @@ export async function registerUser({ email, password, username }) {
     const response = await fetch(url, options);
 
     if (!response.ok) throw new Error(response.statusText);
-
-    const data = await response.json();
-    localStorage.setItem("jwt", data.accessToken);
-    localStorage.setItem("user_email", data.email);
-    localStorage.setItem("user_name", data.name);
-    localStorage.setItem("user_count", data.count);
-    localStorage.setItem("user_avata", data.avatar);
-
-    return data;
+    else return;
   } catch (error) {
     throw new Error(error);
   }
@@ -157,6 +149,30 @@ export async function fetchProfileByName(profileName) {
     headers: {
       "Content-Type": "application/json",
     },
+  };
+  const options = updateOptions(getOptions);
+
+  try {
+    const response = await fetch(url.href, options);
+    if (!response.ok) throw new Error(response.statusText);
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export async function putUpdateEntryMedia(profileName, imageUrl) {
+  const url = new URL(
+    `${API_URL}/profiles/${encodeURIComponent(profileName)}/media`
+  );
+  const getOptions = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ avatar: imageUrl }),
   };
   const options = updateOptions(getOptions);
 
