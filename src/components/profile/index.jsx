@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-modal";
-import defaultAvatar from "/src/defaultAvatar.jpg";
+import { fetchProfileByName } from "../../lib/api";
+import CountdownTimer from "../countDown";
 
 const Card = ({ children }) => (
   <div className="bg-white p-8 rounded-md shadow-md mb-4 flex-grow w-full">
@@ -9,9 +10,23 @@ const Card = ({ children }) => (
 );
 
 const Profile = () => {
-  const [avatarUrl, setAvatarUrl] = useState(defaultAvatar);
+  const [avatarUrl, setAvatarUrl] = useState(localStorage.getItem("avatar"));
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [profile, setProfile] = useState();
+  const userName = localStorage.getItem("user_name");
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const data = await fetchProfileByName(userName);
+      setProfile(data);
+    } catch (error) {
+      console.error("Error fetching listing details:", error);
+    }
+  };
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -72,11 +87,13 @@ const Profile = () => {
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Overview</h2>
           <div className="flex items-center justify-between mb-2">
             <p className="text-gray-800">My credit:</p>
-            <span className="text-turq font-semibold">$1,000.00</span>
+            <span className="text-turq font-semibold">${profile?.credits}</span>
           </div>
           <div className="flex items-center justify-between">
             <p className="text-gray-800">Listings:</p>
-            <span className="text-turq font-semibold">10</span>
+            <span className="text-turq font-semibold">
+              {profile?.listings.length}
+            </span>
           </div>
         </Card>
 
@@ -85,6 +102,18 @@ const Profile = () => {
           <p className="text-gray-800">
             Fetch a list of the users listings here
           </p>
+          <p>hwlluu</p>
+          {profile?.listings?.map((item) => {
+            return (
+              <>
+                <hr></hr>
+                <br></br>
+                <h4>{item?.title}</h4>
+                <p>{item?.description}</p>
+                <CountdownTimer endsAt={item?.endsAt} />
+              </>
+            );
+          })}
         </Card>
 
         {/* Modal */}

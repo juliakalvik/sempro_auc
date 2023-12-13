@@ -34,14 +34,19 @@ const CountdownTimer = (props) => {
     const minutes = Math.floor((time % 3600) / 60);
     const seconds = Math.floor(time % 60);
 
-    return `${days}d ${String(hours).padStart(2, "0")}h ${String(
+    // eslint-disable-next-line use-isnan
+    if (!seconds) {
+      return "Bid ended.";
+    }
+
+    return `Bid ends in: ${days}d ${String(hours).padStart(2, "0")}h ${String(
       minutes
     ).padStart(2, "0")}m ${String(seconds).padStart(2, "0")}s`;
   };
 
   return (
     <div>
-      <p>Bid ends in: {formatTime(timeInSeconds)}</p>
+      <p>{formatTime(timeInSeconds)}</p>
     </div>
   );
 };

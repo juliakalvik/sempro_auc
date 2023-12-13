@@ -8,10 +8,10 @@ import { API_URL } from "./constants";
 
 function updateOptions(options) {
   const update = { ...options };
-  if (localStorage.getItem("jwt")) {
+  if (localStorage.getItem("token")) {
     update.headers = {
       ...update.headers,
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     };
   }
   return update;
@@ -30,7 +30,6 @@ export default function fetcher(url, options) {
  * @returns {Object | Error} - A list of posts
  */
 
-/** *Sign up user - register page - @author Cnbergh*/
 export async function registerUser({ email, password, username }) {
   const url = new URL(`${API_URL}/auth/register`);
 
@@ -148,8 +147,30 @@ export async function fetchListingById(listingId) {
   }
 }
 
-/** *Logout user - @author Cnbergh*/
+// Get profile information
+export async function fetchProfileByName(profileName) {
+  const url = new URL(`${API_URL}/profiles/${encodeURIComponent(profileName)}`);
+  url.searchParams.append("_listings", "true");
+
+  const getOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const options = updateOptions(getOptions);
+
+  try {
+    const response = await fetch(url.href, options);
+    if (!response.ok) throw new Error(response.statusText);
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 export function logoutUser() {
-  localStorage.removeItem("jwt");
-  localStorage.removeItem("user_email");
+  localStorage.clear();
 }
