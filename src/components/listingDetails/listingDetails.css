@@ -3,10 +3,15 @@ html {
   margin: 20px;
 }
 
+.left {
+  max-height: 500px;
+  overflow: hidden;
+}
+
 .left img {
   border-radius: 28px;
   width: auto;
-  height: auto;
+  height: 100%;
 }
 
 .parent {
@@ -19,9 +24,23 @@ html {
   display: flex;
 }
 
+.addbid input {
+  border: solid;
+  border-radius: 5px;
+}
+
+.addbid button {
+  background-color: darkgray;
+}
+
 .inputField,
 .actionButton {
   padding: 10px;
   font-size: 16px;
   margin-right: 5px;
+}
+
+.descriptiontags {
+  display: flex;
+  flex-direction: start;
 }

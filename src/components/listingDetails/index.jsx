@@ -36,8 +36,6 @@ const ListingDetails = () => {
             className="h-full w-full object-cover object-center lg:h-full lg:w-full"
             alt={listing.title}
           />
-          <p>{listing.description}</p>
-          {listing.tags}
         </div>
         <div className="right">
           <h1>{listing.title}</h1>
@@ -56,6 +54,10 @@ const ListingDetails = () => {
           </div>
           <p>Your credit: cash</p>
         </div>
+      </div>
+      <div className="descriptiontags">
+        <p>{listing.description}</p>
+        {listing.tags}
       </div>
       <div className="">
         <table id="bidTable">
