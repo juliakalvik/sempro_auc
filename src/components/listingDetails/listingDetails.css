@@ -1,0 +1,27 @@
+body,
+html {
+  margin: 20px;
+}
+
+.left img {
+  border-radius: 28px;
+  width: auto;
+  height: auto;
+}
+
+.parent {
+  display: flex;
+  /*flex-wrap: wrap;
+  flex-direction: column-reverse;*/
+}
+
+.addbid {
+  display: flex;
+}
+
+.inputField,
+.actionButton {
+  padding: 10px;
+  font-size: 16px;
+  margin-right: 5px;
+}
