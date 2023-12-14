@@ -13,6 +13,15 @@ const ListingDetails = () => {
   const params = new URLSearchParams(new URL(window.location.href).search);
   const productId = params.get("productId");
 
+  {
+    /*
+  const highestBid = listing.bids
+    .slice()
+    .sort((a, b) => b.amount - a.amount)[0];
+
+*/
+  }
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -52,19 +61,33 @@ const ListingDetails = () => {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row">
-        <div className="lg:w-1/2 mb-4 lg:mb-0 ">
-          <h1 className="text-3xl lg:text-4xl font-bold mb-2 sm:order-1">
-            {listing.title}
-          </h1>
-          <p>
-            Seller: {listing.seller.name}
+      <div className="flex flex-col lg:flex-row mt-8 text-left lg:items-center">
+        <div className="lg:w-1/2 mb-4 lg:mb-0 lg:pl-10">
+          <h1 className="text-2xl mb-2 sm:order-1 pb-3">{listing.title}</h1>
+          <div className="seller flex flex-row items-center gap-3 font-light pb-3">
+            <p>Listed by: {listing.seller.name}</p>
             <img
               src={listing.seller.avatar}
-              className="w-24 h-24 rounded-full mx-auto mb-2"
+              className="w-12 h-12 rounded-full"
             />
-          </p>
-          <CountdownTimer endsAt={listing.endsAt} />
+          </div>
+
+          {/* 
+          
+          {highestBid && (
+            <div className="pt-1" key={highestBid.id}>
+              <p>
+                Highest bid: {highestBid.bidderName}, {highestBid.amount} C
+              </p>
+            </div>
+          )}
+          
+          
+          */}
+
+          <div className="font-light">
+            <CountdownTimer endsAt={listing.endsAt} />
+          </div>
           <div className="flex flex-col lg:flex-row mt-4 sm:order-2">
             <input
               type="number"
@@ -85,17 +108,17 @@ const ListingDetails = () => {
         <div className="lg:w-1/2 lg:order-first">
           <img
             src={listing.media}
-            className="h-full w-full object-cover object-center lg:h-full lg:w-full rounded-lg"
+            className="h-full w-full object-cover object-center lg:h-full lg:w-full rounded-lg shadow-2xl shadow-gray-800"
             alt={listing.title}
           />
         </div>
       </div>
       <div className="mt-4">
         <p className="mb-2">{listing.description}</p>
-        {/* Render your tags here */}
+
         {listing.tags}
       </div>
-      <div className="mt-4">
+      <div className="mt-4 lg:w-1/3 md:w-1/3">
         <table className="w-full" id="bidTable">
           <thead>
             <tr>
