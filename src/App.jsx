@@ -14,7 +14,7 @@ function App() {
       </main>
 
       <footer>
-        <small>Created with ❤️ Julia</small>
+        <small>Created with ❤️ by Julia</small>
       </footer>
     </>
   );

@@ -13,7 +13,7 @@ export default function HomeHeroSection() {
           }}
         />
       </div>
-      <div className="mx-auto max-w-2xl lg:pt-36 md:pt-36 pt-10">
+      <div className="mx-auto max-w-2xl pt-10">
         <div className="text-center">
           {!localStorage.getItem("token") && (
             <>
