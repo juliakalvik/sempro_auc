@@ -77,6 +77,7 @@ export async function loginUser({ email, password }) {
     localStorage.setItem("token", data.accessToken);
     localStorage.setItem("user_name", data.name);
     localStorage.setItem("user_email", data.email);
+    localStorage.setItem("credits", data.credits);
     localStorage.setItem("avatar", data.avatar);
     return data;
   } catch (error) {
@@ -104,7 +105,8 @@ export async function fetchAllListings() {
     "fields",
     "id,title,media, created, endsAt,_count,bids, tags"
   );
-  url.searchParams.append("_active", "true");
+  if (!localStorage.getItem("token"))
+    url.searchParams.append("_active", "true");
 
   try {
     const response = await fetcher(url.href);

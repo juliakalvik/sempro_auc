@@ -7,6 +7,7 @@ import Root from "../App";
 import Profile from "./Profile";
 import AddListing from "./AddListing";
 import ListingDetails from "./ListingDetails";
+import LogoutTest from "./Logout";
 
 const rootRoute = new RootRoute({
   component: Root,
@@ -54,6 +55,12 @@ const detailsRoute = new Route({
   component: ListingDetails,
 });
 
+const logoutRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/logout",
+  component: LogoutTest,
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
@@ -62,6 +69,7 @@ const routeTree = rootRoute.addChildren([
   homeRoute,
   listingRoute,
   detailsRoute,
+  logoutRoute,
 ]);
 
 export const router = new Router({ routeTree });

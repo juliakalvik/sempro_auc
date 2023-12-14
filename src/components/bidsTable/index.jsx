@@ -29,6 +29,7 @@ const populateTable = () => {
           <thead>
             <tr>
               <th>Bidder Name</th>
+
               <th>Time of Bid</th>
               <th>Bid Amount</th>
             </tr>

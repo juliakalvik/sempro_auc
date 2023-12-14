@@ -5,16 +5,20 @@ import { faGavel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./style.css";
 
-const navigation = [
-  { name: "Home", href: "/home" },
-  { name: "+ Listing", href: "/addlisting" },
-  { name: "My Profile", href: "/profile" },
-  { name: "Log In", href: "/login" },
-  { name: "Sign Up", href: "/signup" },
-];
-
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  let navigation = [
+    { name: "Home", href: "/home" },
+    { name: "Log In", href: "/login" },
+    { name: "Sign Up", href: "/signup" },
+  ];
+  if (localStorage.getItem("token"))
+    navigation = [
+      { name: "Home", href: "/home" },
+      { name: "+ Listing", href: "/addlisting" },
+      { name: "My Profile", href: "/profile" },
+      { name: "Log out", href: "/logout" },
+    ];
 
   return (
     <div className="bg-white">

@@ -15,32 +15,36 @@ export default function HomeHeroSection() {
       </div>
       <div className="mx-auto max-w-2xl lg:pt-36 md:pt-36 pt-10">
         <div className="text-center">
-          <h1 className="lg:text-6xl font-extrabold tracking-tight md:text-6xl text-gray-900 text-3xl">
-            Join{" "}
-            <span className="inline-block pl-2 text-7xl transform skew-x-[-18deg]">
-              G
-              <span className="bg-gradient-to-tl from-turq to-black text-transparent bg-clip-text">
-                AV
-              </span>
-              EL
-            </span>{" "}
-            today
-          </h1>
-          <h2 className="lg:text-6xl font-extrabold text-3xl md:text-4xl">
-            and get 1000 cash points for free!
-          </h2>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            Just to get you started. Find new treasures or sell old ones on
-            GAVEL, the future of auctions for everyone.
-          </p>
-          <div className="mt-10 flex items-center justify-center gap-x-6">
-            <a
-              href="./signup"
-              className="rounded-md bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-turq focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 hover:text-white"
-            >
-              Join here
-            </a>
-          </div>
+          {!localStorage.getItem("token") && (
+            <>
+              <h1 className="lg:text-6xl font-extrabold tracking-tight md:text-6xl text-gray-900 text-3xl">
+                Join{" "}
+                <span className="inline-block pl-2 text-7xl transform skew-x-[-18deg]">
+                  G
+                  <span className="bg-gradient-to-tl from-turq to-black text-transparent bg-clip-text">
+                    AV
+                  </span>
+                  EL
+                </span>{" "}
+                today
+              </h1>
+              <h2 className="lg:text-6xl font-extrabold text-3xl md:text-4xl">
+                and get 1000 cash points for free!
+              </h2>
+              <p className="mt-6 text-lg leading-8 text-gray-600">
+                Just to get you started. Find new treasures or sell old ones on
+                GAVEL, the future of auctions for everyone.
+              </p>
+              <div className="mt-10 flex items-center justify-center gap-x-6">
+                <a
+                  href="./signup"
+                  className="rounded-md bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-turq focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 hover:text-white"
+                >
+                  Join here
+                </a>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

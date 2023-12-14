@@ -35,7 +35,7 @@ const CountdownTimer = (props) => {
     const seconds = Math.floor(time % 60);
 
     // eslint-disable-next-line use-isnan
-    if (!seconds) {
+    if (!time) {
       return "Bid ended.";
     }
 
