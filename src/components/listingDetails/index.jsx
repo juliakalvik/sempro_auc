@@ -108,7 +108,7 @@ const ListingDetails = () => {
         <div className="lg:w-1/2 lg:order-first">
           <img
             src={listing.media}
-            className="h-full w-full object-cover object-center lg:h-full lg:w-full rounded-lg shadow-2xl shadow-gray-800"
+            className="h-full w-full lg:max-h-1/2 object-cover object-center lg:h-full lg:w-full rounded-lg shadow-2xl shadow-gray-800"
             alt={listing.title}
           />
         </div>
