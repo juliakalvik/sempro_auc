@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { fetchProfileByName, putUpdateEntryMedia } from "../../lib/api";
 import CountdownTimer from "../countDown";
+import { Link } from "@tanstack/react-router";
 
 const Card = ({ children }) => (
   <div className="bg-white p-8 rounded-md shadow-md mb-4 flex-grow w-full">
@@ -131,8 +132,14 @@ const Profile = () => {
                       index % 2 === 0 ? "bg-gray-100" : "bg-white"
                     } hover:bg-gray-200 transition`}
                   >
-                    <td className="p-3 font-semibold">{item?.title}</td>
-                    {/* Hide on small screens, show on screens larger than or equal to small (sm) */}
+                    <td className="p-3 font-semibold">
+                      <Link
+                        to={`/listingdetails?productId=${item.id}`}
+                        className="text-black hover:text-turq"
+                      >
+                        {item?.title}
+                      </Link>
+                    </td>
                     <td className="p-3 hidden sm:block">{item?.description}</td>
                     <td className="p-3 font-semibold">
                       {isBidActive(item.endsAt) ? (
@@ -140,6 +147,7 @@ const Profile = () => {
                       ) : (
                         <span className="text-red-600">Inactive</span>
                       )}
+                      {/* Hide on small screens, show on screens larger than or equal to small (sm) */}
                     </td>
                   </tr>
                 ))}
