@@ -13,15 +13,6 @@ const ListingDetails = () => {
   const params = new URLSearchParams(new URL(window.location.href).search);
   const productId = params.get("productId");
 
-  {
-    /*
-  const highestBid = listing.bids
-    .slice()
-    .sort((a, b) => b.amount - a.amount)[0];
-
-*/
-  }
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -30,7 +21,6 @@ const ListingDetails = () => {
     try {
       const data = await fetchListingById(productId);
       setListing(data);
-      console.log(listing);
     } catch (error) {
       console.error("Error fetching listing details:", error);
     }
@@ -59,6 +49,10 @@ const ListingDetails = () => {
     }
   };
 
+  const highestBid = listing.bids
+    ? listing.bids.slice().sort((a, b) => b.amount - a.amount)[0]
+    : null;
+
   return (
     <>
       <div className="flex flex-col lg:flex-row mt-8 text-left lg:items-center">
@@ -68,12 +62,10 @@ const ListingDetails = () => {
             <p>Listed by: {listing.seller.name}</p>
             <img
               src={listing.seller.avatar}
-              className="w-12 h-12 rounded-full"
+              className="w-12 h-12 rounded-full object-cover"
             />
           </div>
 
-          {/* 
-          
           {highestBid && (
             <div className="pt-1" key={highestBid.id}>
               <p>
@@ -81,9 +73,6 @@ const ListingDetails = () => {
               </p>
             </div>
           )}
-          
-          
-          */}
 
           <div className="font-light">
             <CountdownTimer endsAt={listing.endsAt} />
@@ -139,7 +128,6 @@ const ListingDetails = () => {
               );
             })}
           </thead>
-          <tbody>{/* Render your bid data here */}</tbody>
         </table>
       </div>
     </>
