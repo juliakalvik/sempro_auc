@@ -154,15 +154,35 @@ const Profile = () => {
         isOpen={isModalOpen}
         onRequestClose={closeModal}
         contentLabel="Profile Photo"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1000,
+          },
+          content: {
+            top: "0",
+            left: "0",
+            right: "0",
+            bottom: "0",
+            border: "none",
+            background: "none",
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end",
+            justifyContent: "flex-start",
+            padding: "0",
+          },
+        }}
       >
         <img
           src={avatarUrl}
           alt="Profile"
-          className="w-full h-full object-contain"
+          className="w-full h-full object-contain p-6"
         />
         <button
           onClick={closeModal}
-          className="absolute top-2 right-2 bg-gray-800 text-white py-2 px-4 rounded-md cursor-pointer"
+          className="absolute top-4 right-4 bg-gray-800 text-white py-2 px-4 rounded-md cursor-pointer"
         >
           Close
         </button>
