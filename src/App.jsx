@@ -13,7 +13,7 @@ function App() {
         <Outlet />
       </main>
 
-      <footer>
+      <footer style={{ marginTop: "40px" }}>
         <small>Created with ❤️ by Julia</small>
       </footer>
     </>
