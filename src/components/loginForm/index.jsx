@@ -10,12 +10,6 @@ const LoginPage = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
 
-  const navigateToHome = () => {
-    setTimeout(() => {
-      navigate("/");
-    }, 2000);
-  };
-
   const handleOnSubmit = async (event) => {
     event.preventDefault();
 
@@ -31,7 +25,10 @@ const LoginPage = () => {
       console.log(res);
       setData(res);
       setIsSuccess(true);
-      navigateToHome();
+
+      navigate({
+        to: "/profile",
+      });
     } catch (error) {
       console.warn("Failed to fetch token", error.message);
       setError(error);
