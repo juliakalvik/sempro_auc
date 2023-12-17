@@ -103,7 +103,7 @@ export default function NewListing() {
                   htmlFor="tags"
                   className="block text-sm font-medium leading-6  text-gray-900"
                 >
-                  Listing tag (Separate with comma)
+                  Listing tags (Separate with comma)
                 </label>
               </div>
               <div className="mt-2">
@@ -147,14 +147,19 @@ export default function NewListing() {
               <div className="p-2">
                 <label
                   htmlFor="deadline"
-                  className=" block text-sm font-medium leading-6 text-gray-900"
+                  className="pb-3 block text-sm font-medium leading-6 text-gray-900"
                 >
                   Deadline
                 </label>
-                <div className=" ">
-                  <label htmlFor="datetimePicker">Choose Date and Time:</label>{" "}
-                  <br></br>
+                <div className="my-4">
+                  <label
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                    htmlFor="datetimePicker"
+                  >
+                    Choose Date and Time:
+                  </label>
                   <input
+                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="datetime-local"
                     required
                     name="endsAt"
@@ -164,15 +169,20 @@ export default function NewListing() {
                   />
                 </div>
               </div>
-              <div className="col-span-full ">
+            </div>
+            <div>
+              <div className="my-4">
                 <label
                   htmlFor="cover-photo"
                   className="block text-sm font-medium leading-6 text-gray-900 p-2"
                 >
                   Product photos (Separate with comma)
                 </label>
-                <label>Photo:</label>
+                <label className="block text-sm font-medium leading-6 text-gray-900 p-2">
+                  Photo:
+                </label>
                 <input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="text"
                   name="media"
                   placeholder="Enter image URL here."
@@ -199,14 +209,8 @@ export default function NewListing() {
 
       <div className="mt-2 flex gap-x-6">
         <button
-          type="button"
-          className="text-sm font-semibold hover:border-turq leading-6 text-gray-900"
-        >
-          Cancel
-        </button>
-        <button
           type="submit"
-          className="rounded-md bg-turq px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 hover:border-gray-800"
+          className="rounded-md bg-turq px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 hover:border-gray-800 w-40"
         >
           Save
         </button>
