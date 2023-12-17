@@ -22,10 +22,8 @@ const LoginPage = () => {
     try {
       setIsLoading(true);
       const res = await loginUser(payload);
-      console.log(res);
       setData(res);
       setIsSuccess(true);
-
       navigate({
         to: "/profile",
       });

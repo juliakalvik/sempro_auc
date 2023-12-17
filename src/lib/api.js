@@ -30,13 +30,14 @@ export default function fetcher(url, options) {
  * @returns {Object | Error} - A list of posts
  */
 
-export async function registerUser({ email, password, username }) {
+export async function registerUser({ email, password, username, avatar }) {
   const url = new URL(`${API_URL}/auth/register`);
 
   const userData = {
     name: username,
     email,
     password,
+    avatar,
   };
 
   const options = {
@@ -49,9 +50,7 @@ export async function registerUser({ email, password, username }) {
 
   try {
     const response = await fetch(url, options);
-
-    if (!response.ok) throw new Error(response.statusText);
-    else return;
+    if (response.ok) return response.json();
   } catch (error) {
     throw new Error(error);
   }
@@ -89,10 +88,10 @@ export async function loginUser({ email, password }) {
 export async function fetchAllListings(tag = "") {
   const url = new URL(`${API_URL}/listings`);
   if (tag) url.searchParams.append("_tag", tag);
-  if (!localStorage.getItem("token")) {
+
+  if (!localStorage.getItem("token"))
     url.searchParams.append("_active", "true");
-  }
-  url.searchParams.append("_active", "true");
+
   try {
     const response = await fetcher(url.href);
 
@@ -219,8 +218,4 @@ export async function putUpdateEntryMedia(profileName, imageUrl) {
   } catch (error) {
     throw new Error(error);
   }
-}
-
-export function logoutUser() {
-  localStorage.clear();
 }

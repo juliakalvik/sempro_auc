@@ -1,14 +1,19 @@
-import LoginForm from "../components/loginForm";
-import { logoutUser } from "../lib/api";
+import { useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 
 export default function LogoutTest() {
-  logoutUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Effect to run when component mounts
+    localStorage.clear();
+    navigate({ to: "/login" });
+    return () => {};
+  }, [navigate]);
+
   return (
-    <>
-      <h2>
-        You have been logged out, if you wish to log in, use the form below
-      </h2>
-      <LoginForm />
-    </>
+    <div>
+      <h2>You have been logged out.</h2>
+    </div>
   );
 }

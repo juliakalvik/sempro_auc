@@ -20,7 +20,6 @@ const Profile = () => {
     credits: 0,
   });
   const userName = localStorage.getItem("user_name");
-
   useEffect(() => {
     fetchData();
   }, []);

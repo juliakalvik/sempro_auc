@@ -130,7 +130,7 @@ const ListingDetails = () => {
           </div>
           <div>
             <h2 className="text-turq text-lg font-bold mb-2">Tags</h2>
-            <p>{listing.tags}</p>
+            <p>{listing.tags.join(", ")}</p>
           </div>
         </div>
       </div>

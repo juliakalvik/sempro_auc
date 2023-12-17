@@ -8,7 +8,7 @@ const SignUpForm = () => {
     name: "",
     email: "",
     password: "",
-    avatar: null,
+    avatar: "",
   });
 
   const [errors, setErrors] = useState({
@@ -25,13 +25,6 @@ const SignUpForm = () => {
     }));
   };
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      avatar: file,
-    }));
-  };
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -78,13 +71,13 @@ const SignUpForm = () => {
         username: formData.name,
         email: formData.email,
         password: formData.password,
+        avatar: formData.avatar,
       });
       if (response.id) {
         // If response have id, it was a success.
         console.log("Registration successful");
         await navigate({ to: "/login" });
       } else {
-        console.log("helluu");
         const errorData = await response.errors[0].message;
         console.error("Registration failed:", errorData.message);
       }
@@ -138,8 +131,14 @@ const SignUpForm = () => {
       </label>
 
       <label>
-        Avatar:
-        <input type="file" accept="image/*" onChange={handleAvatarChange} />
+        AvatarURL:
+        <input
+          type="text"
+          name="avatar"
+          value={formData.avatar}
+          onChange={handleChange}
+          required
+        />
       </label>
 
       <button className="submit-btn" type="submit">
