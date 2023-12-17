@@ -64,7 +64,7 @@ export default function Navbar() {
           <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
               <a href="/home" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
+                <span className="sr-only"></span>
                 <FontAwesomeIcon icon={faGavel} style={{ color: "#101828" }} />
               </a>
               <button
@@ -88,13 +88,6 @@ export default function Navbar() {
                       {item.name}
                     </a>
                   ))}
-                </div>
-                <div className="py-6">
-                  <input
-                    type="text"
-                    placeholder="Search"
-                    className="w-full p-2 border border-gray-300 rounded-md"
-                  />
                 </div>
               </div>
             </div>
