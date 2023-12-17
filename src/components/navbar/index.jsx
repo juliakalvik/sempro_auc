@@ -53,13 +53,6 @@ export default function Navbar() {
               </a>
             ))}
           </div>
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <input
-              type="text"
-              placeholder="Search"
-              className="w-40 p-2 border border-gray-300 rounded-md"
-            />
-          </div>
         </nav>
         <Dialog
           as="div"
