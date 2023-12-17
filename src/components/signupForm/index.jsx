@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./signup.css";
+import { registerUser } from "../../lib/api";
+import { useNavigate } from "@tanstack/react-router";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    avatar: null,
+    avatar: "",
   });
 
   const [errors, setErrors] = useState({
@@ -23,15 +25,9 @@ const SignUpForm = () => {
     }));
   };
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      avatar: file,
-    }));
-  };
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const requiredFields = ["name", "email", "password"];
@@ -70,11 +66,34 @@ const SignUpForm = () => {
       password: "",
     });
 
-    console.log("Signup successful:", formData);
+    try {
+      const response = await registerUser({
+        username: formData.name,
+        email: formData.email,
+        password: formData.password,
+        avatar: formData.avatar,
+      });
+      if (response.id) {
+        // If response have id, it was a success.
+        console.log("Registration successful");
+        await navigate({ to: "/login" });
+      } else {
+        const errorData = await response.errors[0].message;
+        console.error("Registration failed:", errorData.message);
+      }
+    } catch (error) {
+      console.log(error);
+      console.error("Error during registration:");
+    }
   };
 
   return (
-    <form className="signup-form" onSubmit={handleSubmit}>
+    <form
+      className="signup-form"
+      method="post"
+      action="/auth/register"
+      onSubmit={handleSubmit}
+    >
       <label>
         Name:
         <input
@@ -112,8 +131,14 @@ const SignUpForm = () => {
       </label>
 
       <label>
-        Avatar:
-        <input type="file" accept="image/*" onChange={handleAvatarChange} />
+        AvatarURL:
+        <input
+          type="text"
+          name="avatar"
+          value={formData.avatar}
+          onChange={handleChange}
+          required
+        />
       </label>
 
       <button className="submit-btn" type="submit">
