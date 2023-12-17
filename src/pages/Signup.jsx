@@ -1,10 +1,9 @@
-import Header from "../components/navbar_wide";
+import SignupContainer from "../components/signupContainer";
 
 export default function SignupTest() {
   return (
     <>
-      <Header />
-      <h2>Signup page</h2>
+      <SignupContainer />
     </>
   );
 }

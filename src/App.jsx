@@ -1,19 +1,23 @@
-import { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-//import { Home, Login, Signup } from "./pages";
-import { HomeTest } from "./pages/Home";
-
 import { Outlet } from "@tanstack/react-router";
+import "./App.css";
+import "tailwindcss/tailwind.css";
+import Navbar from "./components/navbar";
 
-export default function App() {
+function App() {
   return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<HomeTest />} />
-          <Route path="/home" element={<HomeTest />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <>
+      <Navbar />
+      <header>{/*   <Navbar /> */}</header>
+
+      <main>
+        <Outlet />
+      </main>
+
+      <footer style={{ marginTop: "40px" }}>
+        <small>Created with ❤️ by Julia</small>
+      </footer>
+    </>
   );
 }
+
+export default App;

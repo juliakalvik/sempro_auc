@@ -1,10 +1,11 @@
-import Header from "../components/navbar_wide/index.jsx";
+import AuctionItems from "../components/auctionItems/index.jsx";
+import HomeHeroSection from "../components/homeHero/index.jsx";
 
 export default function HomeTest() {
   return (
     <>
-      <Header />
-      <h2>Home page</h2>
+      <HomeHeroSection />
+      <AuctionItems />
     </>
   );
 }

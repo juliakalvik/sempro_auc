@@ -1,8 +1,11 @@
-/** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}", "./index.html"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        turq: "#2a9d8f",
+      },
+    },
   },
-  plugins: ["daisyui"],
+  plugins: ["daisyui", "@tailwindcss/forms"],
 };

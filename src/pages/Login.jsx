@@ -1,10 +1,9 @@
-import Header from "../components/navbar_wide";
+import LoginForm from "../components/loginForm";
 
 export default function LoginTest() {
   return (
     <>
-      <Header />
-      <h2>Login page</h2>
+      <LoginForm />
     </>
   );
 }
