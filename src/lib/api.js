@@ -98,16 +98,13 @@ export async function loginUser({ email, password }) {
     });
 
 */
-export async function fetchAllListings() {
+export async function fetchAllListings(tag = "") {
   const url = new URL(`${API_URL}/listings`);
-
-  url.searchParams.append(
-    "fields",
-    "id,title,media, created, endsAt,_count,bids, tags"
-  );
-  if (!localStorage.getItem("token"))
+  if (tag) url.searchParams.append("_tag", tag);
+  if (!localStorage.getItem("token")) {
     url.searchParams.append("_active", "true");
-
+  }
+  url.searchParams.append("_active", "true");
   try {
     const response = await fetcher(url.href);
 
