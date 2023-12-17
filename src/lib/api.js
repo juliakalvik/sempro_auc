@@ -85,19 +85,7 @@ export async function loginUser({ email, password }) {
   }
 }
 
-/** AUCTION ITEMS
- * 
- * export async function fetchAllListings() {
-  try {
-    const response = await fetch(`${API_URL}/listings?sort=created&sortOrder=desc&_bids=true`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        
-      },
-    });
-
-*/
+/** AUCTION ITEMS **/
 export async function fetchAllListings(tag = "") {
   const url = new URL(`${API_URL}/listings`);
   if (tag) url.searchParams.append("_tag", tag);
@@ -115,6 +103,28 @@ export async function fetchAllListings(tag = "") {
     const data = await response.json();
 
     return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+/** Create new Listing */
+
+export async function postNewListing(newLisitng) {
+  const url = new URL(`${API_URL}/listings`);
+
+  let options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newLisitng),
+  };
+
+  options = updateOptions(options);
+
+  try {
+    const response = await fetch(url, options);
+    if (response.ok) return response.json();
   } catch (error) {
     throw new Error(error);
   }

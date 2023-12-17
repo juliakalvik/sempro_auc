@@ -1,16 +1,60 @@
-import { PhotoIcon } from "@heroicons/react/24/solid";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { postNewListing } from "../../lib/api";
 
 export default function NewListing() {
-  const [selectedDate, setSelectedDate] = useState(null);
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    tags: "",
+    media: "",
+    endsAt: "",
+  });
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
+
+  const createListing = async (e) => {
+    e.preventDefault();
+
+    const requiredFields = ["title", "endsAt"];
+    const newErrors = {};
+    requiredFields.forEach((field) => {
+      if (!formData[field]) {
+        newErrors[field] = `Please enter ${field}.`;
+      }
+    });
+    try {
+      const postData = {
+        ...formData,
+        // Convert media to an array
+        media: formData.media.split(",").map((item) => item.trim()),
+
+        // Convert tags to an array
+        tags: formData.tags.split(",").map((item) => item.trim()),
+      };
+
+      const response = await postNewListing(postData);
+
+      // If response have id, it was a success.
+      navigate({
+        to: "/listingdetails?productId=" + response.id,
+      });
+    } catch (error) {
+      console.log(error);
+      console.error("Error during registration:");
+    }
+  };
+
   return (
-    <form className="p-5">
+    <form onSubmit={createListing} className="p-5">
       <div
         className="pt-32  flex justify-end ml-10 absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
         aria-hidden="true"
@@ -45,15 +89,34 @@ export default function NewListing() {
                 <div className="border-2 flex rounded-md ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md ">
                   <input
                     type="text"
-                    placeholder="Title"
-                    name="listingTitle"
-                    id="listingTitle"
+                    name="title"
+                    placeholder="Enter title here"
+                    value={formData.title}
+                    onChange={handleChange}
+                    required
                     className="bg-white block flex-1 rounded-md border-0  bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                   />
                 </div>
-                <p className="mt-3 text-sm leading-6 text-gray-600">
-                  Give your listing a name
-                </p>
+              </div>
+              <div className="mt-2">
+                <label
+                  htmlFor="tags"
+                  className="block text-sm font-medium leading-6  text-gray-900"
+                >
+                  Listing tag (Separate with comma)
+                </label>
+              </div>
+              <div className="mt-2">
+                <div className="border-2 flex rounded-md ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md ">
+                  <input
+                    type="text"
+                    name="tags"
+                    placeholder="Enter tag here"
+                    value={formData.tags}
+                    onChange={handleChange}
+                    className="bg-white block flex-1 rounded-md border-0  bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  />
+                </div>
               </div>
             </div>
 
@@ -68,11 +131,12 @@ export default function NewListing() {
               <div className="mt-2">
                 <textarea
                   id="about"
-                  name="about"
+                  name="description"
                   rows={3}
-                  placeholder="Description"
+                  placeholder="Enter a description"
+                  value={formData.description}
+                  onChange={handleChange}
                   className="p-3 block w-full lg:max-w-md md:max-w-md rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6"
-                  defaultValue={""}
                 />
               </div>
               <p className="mt-3 text-sm leading-6 text-gray-600">
@@ -88,47 +152,16 @@ export default function NewListing() {
                   Deadline
                 </label>
                 <div className=" ">
-                  <DatePicker
-                    selected={selectedDate}
-                    onChange={handleDateChange}
-                    dateFormat="MM/dd/yyyy"
-                    className="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholderText="Select a date"
-                  />
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="price"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Starting price
-                </label>
-                <div className="relative mt-2 rounded-md shadow-sm">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <span className="text-gray-500 sm:text-sm">$</span>
-                  </div>
+                  <label htmlFor="datetimePicker">Choose Date and Time:</label>{" "}
+                  <br></br>
                   <input
-                    type="text"
-                    name="price"
-                    id="price"
-                    className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Min. acceptable price"
+                    type="datetime-local"
+                    required
+                    name="endsAt"
+                    value={formData.endsAt}
+                    onChange={handleChange}
+                    id="datetimePicker"
                   />
-                  <div className="absolute inset-y-0 right-0 flex items-center">
-                    <label htmlFor="currency" className="sr-only">
-                      Currency
-                    </label>
-                    <select
-                      id="currency"
-                      name="currency"
-                      className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                    >
-                      <option>USD</option>
-                      <option>EUR</option>
-                      <option>NOK</option>
-                    </select>
-                  </div>
                 </div>
               </div>
               <div className="col-span-full ">
@@ -136,82 +169,16 @@ export default function NewListing() {
                   htmlFor="cover-photo"
                   className="block text-sm font-medium leading-6 text-gray-900 p-2"
                 >
-                  Product photos
+                  Product photos (Separate with comma)
                 </label>
-                <div className="mt-2 flex justify-center flex-wrap  ">
-                  <div className="text-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                    <PhotoIcon
-                      className="mx-auto text-gray-300"
-                      aria-hidden="true"
-                    />
-                    <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                      <label
-                        htmlFor="file-upload"
-                        className="relative cursor-pointer rounded-md bg-white font-semibold text-turq hover:text-gray-800"
-                      >
-                        <span>Upload a file</span>
-                        <input
-                          id="file-upload"
-                          name="file-upload"
-                          type="file"
-                          className="sr-only"
-                        />
-                      </label>
-                      <p className="pl-1">or drag and drop</p>
-                    </div>
-                    <p className="text-xs leading-5 text-gray-600">
-                      PNG, JPG, GIF up to 10MB
-                    </p>
-                  </div>
-                  <div className="text-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                    <PhotoIcon
-                      className="mx-auto text-gray-300"
-                      aria-hidden="true"
-                    />
-                    <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                      <label
-                        htmlFor="file-upload"
-                        className="relative cursor-pointer rounded-md bg-white font-semibold text-turq hover:text-gray-800"
-                      >
-                        <span>Upload a file</span>
-                        <input
-                          id="file-upload"
-                          name="file-upload"
-                          type="file"
-                          className="sr-only"
-                        />
-                      </label>
-                      <p className="pl-1">or drag and drop</p>
-                    </div>
-                    <p className="text-xs leading-5 text-gray-600">
-                      PNG, JPG, GIF up to 10MB
-                    </p>
-                  </div>
-                  <div className="text-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                    <PhotoIcon
-                      className="mx-auto text-gray-300"
-                      aria-hidden="true"
-                    />
-                    <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                      <label
-                        htmlFor="file-upload"
-                        className="relative cursor-pointer rounded-md bg-white font-semibold text-turq hover:text-gray-800"
-                      >
-                        <span>Upload a file</span>
-                        <input
-                          id="file-upload"
-                          name="file-upload"
-                          type="file"
-                          className="sr-only"
-                        />
-                      </label>
-                      <p className="pl-1">or drag and drop</p>
-                    </div>
-                    <p className="text-xs leading-5 text-gray-600">
-                      PNG, JPG, GIF up to 10MB
-                    </p>
-                  </div>
-                </div>
+                <label>Photo:</label>
+                <input
+                  type="text"
+                  name="media"
+                  placeholder="Enter image URL here."
+                  value={formData.media}
+                  onChange={handleChange}
+                />
               </div>
             </div>
           </div>
