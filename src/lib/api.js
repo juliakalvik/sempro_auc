@@ -200,6 +200,7 @@ export async function postListingBid(listingId, amount) {
 export async function fetchProfileByName(profileName) {
   const url = new URL(`${API_URL}/profiles/${encodeURIComponent(profileName)}`);
   url.searchParams.append("_listings", "true");
+  url.searchParams.append("_wins", "true");
 
   const getOptions = {
     method: "GET",

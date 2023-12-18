@@ -52,9 +52,9 @@ const AuctionItems = () => {
 
   return (
     <div className="bg-white">
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-          Active listings
+      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:max-w-7xl lg:px-8">
+        <h2 className="text-xl font-extrabold tracking-tight text-gray-900">
+          EXPLORE
         </h2>
         <div className="flex flex-col lg:flex-row mt-4 sm:order-2">
           <input

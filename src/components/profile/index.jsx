@@ -118,10 +118,16 @@ const Profile = () => {
             <p className="text-gray-800">My credit:</p>
             <span className="text-turq font-semibold">${profile?.credits}</span>
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-2">
             <p className="text-gray-800">Listings:</p>
             <span className="text-turq font-semibold">
               {profile?.listings.length}
+            </span>
+          </div>
+          <div className="flex items-center justify-between">
+            <p className="text-gray-800">Wins:</p>
+            <span className="text-turq font-semibold">
+              {profile?.wins?.length || 0}
             </span>
           </div>
         </Card>
@@ -130,7 +136,7 @@ const Profile = () => {
       {/* Right Side */}
       <div className="lg:w-2/3">
         <Card>
-          <p className="text-gray-800">My listings</p>
+          <p className="text-gray-800 font-bold">MY LISTINGS</p>
           <div className="flex justify-center">
             <table className="w-full border-t border-b border-gray-300">
               <thead className="text-turq">
@@ -185,7 +191,7 @@ const Profile = () => {
 
         {bids[0] && (
           <Card>
-            <p className="text-gray-800">My bids</p>
+            <p className="text-gray-800 font-bold">MY BIDS</p>
             <div className="flex justify-center">
               <table className="w-full border-t border-b border-gray-300">
                 <thead className="text-turq">
