@@ -7,7 +7,7 @@ import {
   putUpdateEntryMedia,
 } from "../../lib/api";
 import { Link } from "@tanstack/react-router";
-
+// eslint-disable-next-line react/prop-types
 const Card = ({ children }) => (
   <div className="bg-white p-8 rounded-md shadow-md mb-4 flex-grow w-full">
     {children}
