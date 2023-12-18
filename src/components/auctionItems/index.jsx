@@ -9,7 +9,7 @@ const AuctionItems = () => {
     "https://t3.ftcdn.net/jpg/04/62/93/66/360_F_462936689_BpEEcxfgMuYPfTaIAOC1tCDurmsno7Sp.jpg";
   const [products, setProducts] = useState([]);
   const [pageNumber, setPagenumber] = useState(0);
-  const [order, setOrder] = useState("desc");
+  const [order, setOrder] = useState("new");
   const [status, setStatus] = useState("all");
   const [tag, setTag] = useState("");
   useEffect(() => {
@@ -112,8 +112,9 @@ const AuctionItems = () => {
               className="border border-gray-300 rounded-md p-4 mb-2 lg:mr-2 lg:mb-0 text-lg"
               onChange={handleOrderChange}
             >
-              <option value="desc">Z-A</option>
+              <option value="new">Newest</option>
               <option value="asc">A-Z</option>
+              <option value="desc">Z-A</option>
             </select>
           </div>
           <button
