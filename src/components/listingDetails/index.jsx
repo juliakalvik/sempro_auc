@@ -156,21 +156,23 @@ const ListingDetails = () => {
             </tr>
           </thead>
           <tbody>
-            {listing.bids.toReversed().map((bid, index) => (
-              <tr
-                key={bid.id}
-                className={`border-b border-gray-300 ${
-                  index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                } hover:bg-gray-200 transition`}
-              >
-                <td className="p-3 font-semibold border">{bid.bidderName}</td>
-                <td className="p-3 border">
-                  {new Date(bid.created).toLocaleTimeString()}{" "}
-                  {new Date(bid.created).toLocaleDateString()}
-                </td>
-                <td className="p-3 font-semibold border">{bid.amount}</td>
-              </tr>
-            ))}
+            {listing.bids
+              .sort((a, b) => b.amount - a.amount)
+              .map((bid, index) => (
+                <tr
+                  key={bid.id}
+                  className={`border-b border-gray-300 ${
+                    index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                  } hover:bg-gray-200 transition`}
+                >
+                  <td className="p-3 font-semibold border">{bid.bidderName}</td>
+                  <td className="p-3 border">
+                    {new Date(bid.created).toLocaleTimeString()}{" "}
+                    {new Date(bid.created).toLocaleDateString()}
+                  </td>
+                  <td className="p-3 font-semibold border">{bid.amount}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

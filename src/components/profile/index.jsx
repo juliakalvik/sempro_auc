@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
-import { fetchProfileByName, putUpdateEntryMedia } from "../../lib/api";
-import CountdownTimer from "../countDown";
+import {
+  fetchBidsByName,
+  fetchProfileByName,
+  putUpdateEntryMedia,
+} from "../../lib/api";
 import { Link } from "@tanstack/react-router";
 
 const Card = ({ children }) => (
@@ -14,6 +17,7 @@ const Profile = () => {
   const [avatarUrl, setAvatarUrl] = useState(localStorage.getItem("avatar"));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imageURL, setImageURL] = useState("");
+  const [bids, setBids] = useState([]);
   const [profile, setProfile] = useState({
     avatar: localStorage.getItem("avatar"),
     listings: [],
@@ -28,6 +32,8 @@ const Profile = () => {
     try {
       const data = await fetchProfileByName(userName);
       setProfile(data);
+      const bidsData = await fetchBidsByName(userName);
+      setBids(bidsData);
     } catch (error) {
       console.error("Error fetching listing details:", error);
     }
@@ -113,7 +119,7 @@ const Profile = () => {
       {/* Right Side */}
       <div className="lg:w-2/3">
         <Card>
-          <p className="text-gray-800">Your listings</p>
+          <p className="text-gray-800">My listings</p>
           <div className="flex justify-center">
             <table className="w-full border-t border-b border-gray-300">
               <thead className="text-turq">
@@ -154,6 +160,51 @@ const Profile = () => {
             </table>
           </div>
         </Card>
+
+        {bids[0] && (
+          <Card>
+            <p className="text-gray-800">My bids</p>
+            <div className="flex justify-center">
+              <table className="w-full border-t border-b border-gray-300">
+                <thead className="text-turq">
+                  <tr>
+                    <th className="p-3 font-bold">Title</th>
+                    <th className="p-3 font-bold hidden sm:block">Amount</th>
+                    <th className="p-3 font-bold">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {bids?.map((item, index) => (
+                    <tr
+                      key={item.id}
+                      className={`border-b border-gray-300 ${
+                        index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                      } hover:bg-gray-200 transition`}
+                    >
+                      <td className="p-3 font-semibold">
+                        <Link
+                          to={`/listingdetails?productId=${item.listing.id}`}
+                          className="text-black hover:text-turq"
+                        >
+                          {item?.listing.title}
+                        </Link>
+                      </td>
+                      <td className="p-3 hidden sm:block">{item?.amount} C</td>
+                      <td className="p-3 font-semibold">
+                        {isBidActive(item.listing.endsAt) ? (
+                          <span className="text-green-600">Active</span>
+                        ) : (
+                          <span className="text-red-600">Inactive</span>
+                        )}
+                        {/* Hide on small screens, show on screens larger than or equal to small (sm) */}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Card>
+        )}
       </div>
 
       {/* Modal */}

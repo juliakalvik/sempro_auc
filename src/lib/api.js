@@ -197,6 +197,31 @@ export async function fetchProfileByName(profileName) {
     throw new Error(error);
   }
 }
+// Get profile bidding information
+export async function fetchBidsByName(profileName) {
+  const url = new URL(
+    `${API_URL}/profiles/${encodeURIComponent(profileName)}/bids`
+  );
+  url.searchParams.append("_listings", "true");
+
+  const getOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const options = updateOptions(getOptions);
+
+  try {
+    const response = await fetch(url.href, options);
+    if (!response.ok) throw new Error(response.statusText);
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
 
 export async function putUpdateEntryMedia(profileName, imageUrl) {
   const url = new URL(

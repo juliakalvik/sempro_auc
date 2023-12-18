@@ -61,6 +61,7 @@ const AuctionItems = () => {
             type="text"
             value={tag}
             onChange={handleInputChange}
+            onKeyDown={(e) => e.key === "Enter" && searchListings()}
             className="inputField border border-gray-300 rounded-md p-2 mb-2 lg:mr-2 lg:mb-0 text-lg"
             placeholder="Search tag"
           />
