@@ -137,7 +137,6 @@ const SignUpForm = () => {
           name="avatar"
           value={formData.avatar}
           onChange={handleChange}
-          required
         />
       </label>
 

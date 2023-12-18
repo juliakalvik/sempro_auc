@@ -85,12 +85,23 @@ export async function loginUser({ email, password }) {
 }
 
 /** AUCTION ITEMS **/
-export async function fetchAllListings(tag = "") {
+export async function fetchAllListings(
+  tag = "",
+  offset = 0,
+  order = "desc",
+  status = "all"
+) {
   const url = new URL(`${API_URL}/listings`);
+  url.searchParams.append("limit", 12);
+  url.searchParams.append("offset", offset * 12); // Offset the same elements as shown.
+  url.searchParams.append("sortOrder", order); // Offset the same elements as shown.
   if (tag) url.searchParams.append("_tag", tag);
 
   if (!localStorage.getItem("token"))
     url.searchParams.append("_active", "true");
+  else {
+    if (status == "active") url.searchParams.append("_active", "true");
+  }
 
   try {
     const response = await fetcher(url.href);
@@ -147,6 +158,28 @@ export async function fetchListingById(listingId) {
   }
 }
 
+export async function deleteListingById(listingId) {
+  const url = new URL(`${API_URL}/listings/${encodeURIComponent(listingId)}`);
+  url.searchParams.append("_bids", "true");
+  url.searchParams.append("_seller", "true");
+
+  const deleteOptions = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const options = updateOptions(deleteOptions);
+
+  try {
+    const response = await fetch(url.href, options);
+    if (!response.ok) throw new Error(response.statusText);
+    return;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 export async function postListingBid(listingId, amount) {
   const url = new URL(
     `${API_URL}/listings/${encodeURIComponent(listingId)}/bids`
@@ -175,6 +208,32 @@ export async function postListingBid(listingId, amount) {
 // Get profile information
 export async function fetchProfileByName(profileName) {
   const url = new URL(`${API_URL}/profiles/${encodeURIComponent(profileName)}`);
+  url.searchParams.append("_listings", "true");
+  url.searchParams.append("_wins", "true");
+
+  const getOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const options = updateOptions(getOptions);
+
+  try {
+    const response = await fetch(url.href, options);
+    if (!response.ok) throw new Error(response.statusText);
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+// Get profile bidding information
+export async function fetchBidsByName(profileName) {
+  const url = new URL(
+    `${API_URL}/profiles/${encodeURIComponent(profileName)}/bids`
+  );
   url.searchParams.append("_listings", "true");
 
   const getOptions = {
