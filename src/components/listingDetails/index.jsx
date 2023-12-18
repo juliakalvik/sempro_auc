@@ -5,6 +5,7 @@ import {
   postListingBid,
 } from "../../lib/api";
 import CountdownTimer from "../countDown";
+import Modal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHourglassHalf } from "@fortawesome/free-regular-svg-icons";
 
@@ -14,6 +15,16 @@ const ListingDetails = () => {
   const [credits, setCreditsAmount] = useState(localStorage.getItem("credits"));
   const params = new URLSearchParams(new URL(window.location.href).search);
   const productId = params.get("productId");
+
+  const [isListingPhotoModalOpen, setIsListingPhotoModalOpen] = useState(false);
+
+  const openListingPhotoModal = () => {
+    setIsListingPhotoModalOpen(true);
+  };
+
+  const closeListingPhotoModal = () => {
+    setIsListingPhotoModalOpen(false);
+  };
 
   useEffect(() => {
     fetchData();
@@ -96,31 +107,82 @@ const ListingDetails = () => {
               }}
             />
           </div>
-          <div className="flex flex-col lg:flex-row mt-4 sm:order-2">
-            <input
-              type="number"
-              value={bidAmount}
-              onChange={handleInputChange}
-              className="inputField border border-gray-300 rounded-md p-2 mb-2 lg:mr-2 lg:mb-0 text-lg"
-              placeholder="Enter amount"
-            />
-            <button
-              onClick={() => placeBid()}
-              className="actionButton bg-gray-600 text-white px-4 rounded-md text-lg"
-            >
-              Place bid
-            </button>
-          </div>
-          <p className="text-lg font-semibold pt-2">My credit: {credits} </p>
+          {(listing.seller.name == localStorage.getItem("user_name") && (
+            <>
+              <h2>Cannot place bid on your own listings.</h2>
+            </>
+          )) ||
+            (localStorage.getItem("token") && (
+              <>
+                <div className="flex flex-col lg:flex-row mt-4 sm:order-2">
+                  <input
+                    type="number"
+                    value={bidAmount}
+                    onChange={handleInputChange}
+                    className="inputField border border-gray-300 rounded-md p-2 mb-2 lg:mr-2 lg:mb-0 text-lg"
+                    placeholder="Enter amount"
+                  />
+                  <button
+                    onClick={() => placeBid()}
+                    className="actionButton bg-gray-600 text-white px-4 rounded-md text-lg"
+                  >
+                    Place bid
+                  </button>
+                </div>
+                <p className="text-lg font-semibold pt-2">
+                  My credit: {credits}{" "}
+                </p>
+              </>
+            ))}
         </div>
 
         <div className="lg:w-1/2 lg:order-first">
           <img
             src={listing.media}
-            className="w-full h-full max-w-full max-h-[500px] object-cover object-center rounded-lg shadow-2xl shadow-gray-800"
+            onClick={openListingPhotoModal}
+            className="w-full h-full max-w-full max-h-[500px] object-cover object-center rounded-lg shadow-2xl shadow-gray-800 cursor-pointer"
             alt={listing.title}
           />
         </div>
+
+        {/* Modal for Listing Photo */}
+        <Modal
+          isOpen={isListingPhotoModalOpen}
+          onRequestClose={closeListingPhotoModal}
+          contentLabel="Listing Photo"
+          style={{
+            overlay: {
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              zIndex: 1000,
+            },
+            content: {
+              top: "0",
+              left: "0",
+              right: "0",
+              bottom: "0",
+              border: "none",
+              background: "none",
+              overflow: "hidden",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              justifyContent: "flex-start",
+              padding: "0",
+            },
+          }}
+        >
+          <img
+            src={listing.media}
+            alt={listing.title}
+            className="w-full h-full object-contain p-6"
+          />
+          <button
+            onClick={closeListingPhotoModal}
+            className="absolute top-4 right-4 bg-gray-800 text-white py-2 px-4 rounded-md cursor-pointer"
+          >
+            Close
+          </button>
+        </Modal>
       </div>
       <div className="mt-4 text-left py-6">
         <div className="bg-white rounded-lg shadow-md p-4 lg:w-[50%]">
@@ -145,21 +207,23 @@ const ListingDetails = () => {
             </tr>
           </thead>
           <tbody>
-            {listing.bids.toReversed().map((bid, index) => (
-              <tr
-                key={bid.id}
-                className={`border-b border-gray-300 ${
-                  index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                } hover:bg-gray-200 transition`}
-              >
-                <td className="p-3 font-semibold border">{bid.bidderName}</td>
-                <td className="p-3 border">
-                  {new Date(bid.created).toLocaleTimeString()}{" "}
-                  {new Date(bid.created).toLocaleDateString()}
-                </td>
-                <td className="p-3 font-semibold border">{bid.amount}</td>
-              </tr>
-            ))}
+            {listing.bids
+              .sort((a, b) => b.amount - a.amount)
+              .map((bid, index) => (
+                <tr
+                  key={bid.id}
+                  className={`border-b border-gray-300 ${
+                    index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                  } hover:bg-gray-200 transition`}
+                >
+                  <td className="p-3 font-semibold border">{bid.bidderName}</td>
+                  <td className="p-3 border">
+                    {new Date(bid.created).toLocaleTimeString()}{" "}
+                    {new Date(bid.created).toLocaleDateString()}
+                  </td>
+                  <td className="p-3 font-semibold border">{bid.amount}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

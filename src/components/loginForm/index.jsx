@@ -35,8 +35,6 @@ const LoginPage = () => {
     }
   };
 
-  if (error) return <div>An error occurred: {error?.message}</div>;
-
   return (
     <div className=" ">
       <div className="mx-auto max-w-2xl  pt-10">
@@ -106,8 +104,15 @@ const LoginPage = () => {
                       autoComplete="current-password"
                       minLength={8}
                       defaultValue="UzI1NiIsInR5cCI"
-                      className="bg-neutral-100 border-2 border-orange-100 text-gray-900 leading-tight tracking-tight text-sm rounded-3xl focus:ring-primary-600 focus:border-primary-600 block w-full min-w-[220px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      className={`bg-neutral-100 border-2 border-orange-100 text-gray-900 leading-tight tracking-tight text-sm rounded-3xl focus:ring-primary-600 focus:border-primary-600 block w-full min-w-[220px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
+                        error ? "border-red-500" : ""
+                      }`}
                     />
+                    {error && (
+                      <p className="mt-1 text-sm text-red-500">
+                        Wrong password, please try again.
+                      </p>
+                    )}
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-start">
