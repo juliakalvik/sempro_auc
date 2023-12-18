@@ -96,29 +96,33 @@ const ListingDetails = () => {
               }}
             />
           </div>
-
-          {localStorage.getItem("token") && (
+          {(listing.seller.name == localStorage.getItem("user_name") && (
             <>
-              <div className="flex flex-col lg:flex-row mt-4 sm:order-2">
-                <input
-                  type="number"
-                  value={bidAmount}
-                  onChange={handleInputChange}
-                  className="inputField border border-gray-300 rounded-md p-2 mb-2 lg:mr-2 lg:mb-0 text-lg"
-                  placeholder="Enter amount"
-                />
-                <button
-                  onClick={() => placeBid()}
-                  className="actionButton bg-gray-600 text-white px-4 rounded-md text-lg"
-                >
-                  Place bid
-                </button>
-              </div>
-              <p className="text-lg font-semibold pt-2">
-                My credit: {credits}{" "}
-              </p>
+              <h2>Cannot place bid on your own listings.</h2>
             </>
-          )}
+          )) ||
+            (localStorage.getItem("token") && (
+              <>
+                <div className="flex flex-col lg:flex-row mt-4 sm:order-2">
+                  <input
+                    type="number"
+                    value={bidAmount}
+                    onChange={handleInputChange}
+                    className="inputField border border-gray-300 rounded-md p-2 mb-2 lg:mr-2 lg:mb-0 text-lg"
+                    placeholder="Enter amount"
+                  />
+                  <button
+                    onClick={() => placeBid()}
+                    className="actionButton bg-gray-600 text-white px-4 rounded-md text-lg"
+                  >
+                    Place bid
+                  </button>
+                </div>
+                <p className="text-lg font-semibold pt-2">
+                  My credit: {credits}{" "}
+                </p>
+              </>
+            ))}
         </div>
 
         <div className="lg:w-1/2 lg:order-first">
