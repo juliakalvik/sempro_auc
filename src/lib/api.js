@@ -88,13 +88,16 @@ export async function loginUser({ email, password }) {
 export async function fetchAllListings(
   tag = "",
   offset = 0,
-  order = "desc",
+  order = "new",
   status = "all"
 ) {
   const url = new URL(`${API_URL}/listings`);
   url.searchParams.append("limit", 12);
   url.searchParams.append("offset", offset * 12); // Offset the same elements as shown.
-  url.searchParams.append("sortOrder", order); // Offset the same elements as shown.
+  order == "new"
+    ? url.searchParams.append("sort", "created")
+    : url.searchParams.append("sortOrder", order);
+
   if (tag) url.searchParams.append("_tag", tag);
 
   if (!localStorage.getItem("token"))
