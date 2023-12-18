@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { fetchAllListings } from "../../lib/api";
 import CountdownTimer from "../countDown";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 const AuctionItems = () => {
   const dummypicture =
     "https://t3.ftcdn.net/jpg/04/62/93/66/360_F_462936689_BpEEcxfgMuYPfTaIAOC1tCDurmsno7Sp.jpg";
   const [products, setProducts] = useState([]);
+  const [pageNumber, setPagenumber] = useState(0);
   const [tag, setTag] = useState("");
   useEffect(() => {
     const fetchListings = async () => {
@@ -27,6 +29,21 @@ const AuctionItems = () => {
   const searchListings = async () => {
     try {
       const response = await fetchAllListings(tag);
+      setProducts(response);
+      setPagenumber(0);
+    } catch (error) {
+      console.error("Error fetching listings:", error);
+    }
+  };
+  const navigateListings = async (direction) => {
+    try {
+      console.log(pageNumber + direction);
+      if (direction + pageNumber < 0) {
+        console.error("Cannot go back when you`re on page one.");
+        return;
+      }
+      const response = await fetchAllListings(tag, direction + pageNumber);
+      setPagenumber(direction + pageNumber);
       setProducts(response);
     } catch (error) {
       console.error("Error fetching listings:", error);
@@ -56,6 +73,9 @@ const AuctionItems = () => {
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+          {!products[0] && (
+            <p>No results to show, try searching for something else.</p>
+          )}
           {products.map((product) => (
             <div
               key={product.id}
@@ -85,6 +105,28 @@ const AuctionItems = () => {
             </div>
           ))}
         </div>
+        <nav
+          className="isolate inline-flex -space-x-px rounded-md shadow-sm pt-4"
+          aria-label="Pagination"
+        >
+          {pageNumber > 0 && (
+            <a
+              onClick={() => navigateListings(-1)}
+              className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+            >
+              <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+              <span>Prev</span>
+            </a>
+          )}
+          <div className="px-5"></div>
+          <a
+            onClick={() => navigateListings(1)}
+            className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+          >
+            <span>Next</span>
+            <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+          </a>
+        </nav>
       </div>
     </div>
   );

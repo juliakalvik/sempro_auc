@@ -85,8 +85,10 @@ export async function loginUser({ email, password }) {
 }
 
 /** AUCTION ITEMS **/
-export async function fetchAllListings(tag = "") {
+export async function fetchAllListings(tag = "", offset = 0) {
   const url = new URL(`${API_URL}/listings`);
+  url.searchParams.append("limit", 12);
+  url.searchParams.append("offset", offset * 12); // Offset the same elements as shown.
   if (tag) url.searchParams.append("_tag", tag);
 
   if (!localStorage.getItem("token"))
