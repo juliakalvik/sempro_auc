@@ -133,7 +133,6 @@ const Profile = () => {
         </Card>
       </div>
 
-      {/* Right Side */}
       <div className="lg:w-2/3">
         <Card>
           <p className="text-gray-800 font-bold">MY LISTINGS</p>
@@ -170,7 +169,6 @@ const Profile = () => {
                       ) : (
                         <span className="text-red-600">Inactive</span>
                       )}
-                      {/* Hide on small screens, show on screens larger than or equal to small (sm) */}
                     </td>
                     <td className="p-3 font-semibold">
                       <button
@@ -224,7 +222,6 @@ const Profile = () => {
                         ) : (
                           <span className="text-red-600">Inactive</span>
                         )}
-                        {/* Hide on small screens, show on screens larger than or equal to small (sm) */}
                       </td>
                     </tr>
                   ))}
@@ -235,7 +232,6 @@ const Profile = () => {
         )}
       </div>
 
-      {/* Modal */}
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}

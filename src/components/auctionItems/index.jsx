@@ -9,6 +9,8 @@ const AuctionItems = () => {
     "https://t3.ftcdn.net/jpg/04/62/93/66/360_F_462936689_BpEEcxfgMuYPfTaIAOC1tCDurmsno7Sp.jpg";
   const [products, setProducts] = useState([]);
   const [pageNumber, setPagenumber] = useState(0);
+  const [order, setOrder] = useState("desc");
+  const [status, setStatus] = useState("all");
   const [tag, setTag] = useState("");
   useEffect(() => {
     const fetchListings = async () => {
@@ -26,9 +28,18 @@ const AuctionItems = () => {
   const handleInputChange = (event) => {
     setTag(event.target.value);
   };
+
+  const handleStatusChange = (event) => {
+    setStatus(event.target.value);
+  };
+
+  const handleOrderChange = (event) => {
+    setOrder(event.target.value);
+  };
+
   const searchListings = async () => {
     try {
-      const response = await fetchAllListings(tag);
+      const response = await fetchAllListings(tag, 0, order, status);
       setProducts(response);
       setPagenumber(0);
     } catch (error) {
@@ -42,7 +53,12 @@ const AuctionItems = () => {
         console.error("Cannot go back when you`re on page one.");
         return;
       }
-      const response = await fetchAllListings(tag, direction + pageNumber);
+      const response = await fetchAllListings(
+        tag,
+        direction + pageNumber,
+        order,
+        status
+      );
       setPagenumber(direction + pageNumber);
       setProducts(response);
     } catch (error) {
@@ -51,7 +67,22 @@ const AuctionItems = () => {
   };
 
   return (
-    <div className="bg-white">
+    <div>
+      {localStorage.getItem("token") && (
+        <div
+          className="pt-32  flex justify-end ml-10 absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+          aria-hidden="true"
+        >
+          <div
+            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tl from-turq to-yellow opacity-70 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+            style={{
+              clipPath:
+                "polygon(74.1% 99.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+            }}
+          />
+        </div>
+      )}
+
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:max-w-7xl lg:px-8">
         <h2 className="text-xl font-extrabold tracking-tight text-gray-900">
           EXPLORE
@@ -65,6 +96,26 @@ const AuctionItems = () => {
             className="inputField border border-gray-300 rounded-md p-2 mb-2 lg:mr-2 lg:mb-0 text-lg"
             placeholder="Search tag"
           />
+
+          <div>
+            {localStorage.getItem("token") && (
+              <select
+                className="border border-gray-300 rounded-md p-4 mb-2 lg:mr-2 lg:mb-0 text-lg"
+                onChange={handleStatusChange}
+              >
+                <option value="all">All listings</option>
+                <option value="active">Active listings</option>
+              </select>
+            )}
+
+            <select
+              className="border border-gray-300 rounded-md p-4 mb-2 lg:mr-2 lg:mb-0 text-lg"
+              onChange={handleOrderChange}
+            >
+              <option value="desc">Newest first</option>
+              <option value="asc">Oldest first</option>
+            </select>
+          </div>
           <button
             onClick={() => searchListings()}
             className="actionButton bg-gray-600 text-white px-4 rounded-md text-lg"
@@ -100,9 +151,9 @@ const AuctionItems = () => {
                 </p>
               </div>
 
-              <p className="font-medium text-gray-900 text-left">
+              <div className="font-medium text-gray-900 text-left">
                 <CountdownTimer endsAt={product.endsAt}></CountdownTimer>
-              </p>
+              </div>
             </div>
           ))}
         </div>
