@@ -82,7 +82,6 @@ const LoginPage = () => {
                         required
                         placeholder="Email"
                         autoComplete="email"
-                        defaultValue="first.last@stud.noroff.no"
                         className="bg-neutral-100 border-2 border-orange-100 text-gray-900 leading-tight tracking-tight text-sm rounded-3xl focus:ring-primary-600 focus:border-primary-600 block w-full min-w-[220px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 "
                       />
                     </div>
@@ -103,7 +102,6 @@ const LoginPage = () => {
                       placeholder="Password"
                       autoComplete="current-password"
                       minLength={8}
-                      defaultValue="UzI1NiIsInR5cCI"
                       className={`bg-neutral-100 border-2 border-orange-100 text-gray-900 leading-tight tracking-tight text-sm rounded-3xl focus:ring-primary-600 focus:border-primary-600 block w-full min-w-[220px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
                         error ? "border-red-500" : ""
                       }`}
