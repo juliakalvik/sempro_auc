@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import {
+  deleteListingById,
   fetchBidsByName,
   fetchProfileByName,
   putUpdateEntryMedia,
@@ -34,6 +35,16 @@ const Profile = () => {
       setProfile(data);
       const bidsData = await fetchBidsByName(userName);
       setBids(bidsData);
+    } catch (error) {
+      console.error("Error fetching listing details:", error);
+    }
+  };
+  const deleteListing = async (id) => {
+    try {
+      await deleteListingById(id);
+      const data = await fetchProfileByName(userName);
+      setProfile(data);
+      alert("Deleted listing");
     } catch (error) {
       console.error("Error fetching listing details:", error);
     }
@@ -127,6 +138,7 @@ const Profile = () => {
                   <th className="p-3 font-bold">Title</th>
                   <th className="p-3 font-bold hidden sm:block">Description</th>
                   <th className="p-3 font-bold">Status</th>
+                  <th className="p-3 font-bold">Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -153,6 +165,16 @@ const Profile = () => {
                         <span className="text-red-600">Inactive</span>
                       )}
                       {/* Hide on small screens, show on screens larger than or equal to small (sm) */}
+                    </td>
+                    <td className="p-3 font-semibold">
+                      <button
+                        onClick={async () => {
+                          deleteListing(item.id);
+                        }}
+                      >
+                        {" "}
+                        Delete{" "}
+                      </button>
                     </td>
                   </tr>
                 ))}

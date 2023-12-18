@@ -149,6 +149,28 @@ export async function fetchListingById(listingId) {
   }
 }
 
+export async function deleteListingById(listingId) {
+  const url = new URL(`${API_URL}/listings/${encodeURIComponent(listingId)}`);
+  url.searchParams.append("_bids", "true");
+  url.searchParams.append("_seller", "true");
+
+  const deleteOptions = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const options = updateOptions(deleteOptions);
+
+  try {
+    const response = await fetch(url.href, options);
+    if (!response.ok) throw new Error(response.statusText);
+    return;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 export async function postListingBid(listingId, amount) {
   const url = new URL(
     `${API_URL}/listings/${encodeURIComponent(listingId)}/bids`
