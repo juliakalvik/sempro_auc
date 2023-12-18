@@ -112,8 +112,8 @@ const AuctionItems = () => {
               className="border border-gray-300 rounded-md p-4 mb-2 lg:mr-2 lg:mb-0 text-lg"
               onChange={handleOrderChange}
             >
-              <option value="desc">Newest first</option>
-              <option value="asc">Oldest first</option>
+              <option value="desc">Z-A</option>
+              <option value="asc">A-Z</option>
             </select>
           </div>
           <button
