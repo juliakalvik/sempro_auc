@@ -4,6 +4,8 @@ import { fetchAllListings } from "../../lib/api";
 import CountdownTimer from "../countDown";
 
 const AuctionItems = () => {
+  const dummypicture =
+    "https://t3.ftcdn.net/jpg/04/62/93/66/360_F_462936689_BpEEcxfgMuYPfTaIAOC1tCDurmsno7Sp.jpg";
   const [products, setProducts] = useState([]);
   const [tag, setTag] = useState("");
   useEffect(() => {
@@ -62,7 +64,7 @@ const AuctionItems = () => {
               <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                 <Link to={`/listingdetails?productId=${product.id}`}>
                   <img
-                    src={product.media}
+                    src={product.media[0] ? product.media[0] : dummypicture}
                     className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                   />
                 </Link>
