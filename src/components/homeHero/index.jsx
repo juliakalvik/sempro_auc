@@ -15,7 +15,7 @@ export default function HomeHeroSection() {
           />
         </div>
       )}
-      ;
+
       <div className="mx-auto max-w-2xl pt-10">
         <div className="text-center">
           {!localStorage.getItem("token") && (
